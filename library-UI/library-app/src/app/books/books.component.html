@@ -2,26 +2,67 @@
   <div class="panel panel-primary">
     <div class="d-flex align-items-center justify-content-center">
       <div class="panel-body">
-        <table class="table table-hover table-bordered table-light">
+        <div *ngIf="books.length">
+          <div>
+            <h5>Желаете ли сортиране по години?</h5>
+            <form>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" [checked]="yearsorting" (change)="onYearSortingChange($event)">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Възходящо сортиране по години
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked [checked]="desc" (change)="desc = !desc">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Низходящо сортиране по години
+                </label>
+              </div>
+            </form>
+            <button type="button" class="btn btn-primary" (click)="sortNow()">Сортирай сега</button>
+          </div>
+          <hr>
+          <div class="form-group bottom10">
+            <label>Сортиране по жанр:</label>
+            <select class="form-control" id="genre_filtering"
+                    (change)="getBooksPagesWithGenreFiltering($any($event.target).value)">
+              <option>Всички</option>
+              <option *ngFor="let genre of genres">{{genre}}</option>
+            </select>
+          </div>
+          <table class="table table-hover table-bordered table-light">
           <thead class="thead-dark">
             <tr>
               <th>Заглавие</th>
               <th>Автор</th>
+              <th>Година</th>
               <th>Жанр</th>
               <th>Брой</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let book of books">
-              <td>{{book.book_title}}</td>
-              <td>{{book.author_name}}</td>
-              <td>{{book.genre_type}}</td>
-              <td>{{book.pieces}}</td>
+              <td>{{book.title}}</td>
+              <td>{{book.author}}</td>
+              <td>{{book.yearPublished}}</td>
+              <td>{{book.genre.genreType}}</td>
+              <td>{{book.stock.numbers}}</td>
             </tr>
           </tbody>
         </table>
+          <ul class="pagination justify-content-center">
+            <li class="page-item"><a (click)="previousClick()" class="page-link">Previous</a></li>
+            <li *ngFor='let index of pageIndexes' class="page-item">
+              <a (click)="getPaginationWithIndex(index)" class="page-link">
+                {{index + 1}}
+              </a>
+            </li>
+            <li class="page-item"><a (click)="nextClick()" class="page-link">Next</a></li>
+          </ul>
       </div>
     </div>
   </div>
 </div>
+</div>
+
 

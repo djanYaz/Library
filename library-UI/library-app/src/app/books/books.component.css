@@ -1,6 +1,9 @@
 .back {
-  background-image: url("./../../assets/images/mainback.jpg");
   height: 100%;
+}
+
+.d-flex {
+  background-image: url("./../../assets/images/mainback.jpg");
 }
 
 .panel-body {
@@ -9,11 +12,25 @@
   -moz-box-shadow: -1px 1px 5px 9px #ccc;
   box-shadow: -1px 1px 5px 9px #ccc;
   display: block;
-  margin-top: 10%;
+  margin-top: 5%;
+  margin-bottom: 15%;
   background-color: #ccc;
 }
 
 .table > tbody > tr > td,
 .table > tbody > tr > th {
   background-color: #d7b17e;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #98BF64;
+  border-color: #d7b17e;
+}
+
+.bottom10 {
+  margin-bottom: 10px;
 }

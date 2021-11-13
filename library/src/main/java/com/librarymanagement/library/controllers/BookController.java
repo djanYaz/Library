@@ -1,18 +1,21 @@
 package com.librarymanagement.library.controllers;
 
-import com.librarymanagement.library.entities.Book;
-import com.librarymanagement.library.entities.Genre;
-import com.librarymanagement.library.entities.Inspection;
-import com.librarymanagement.library.entities.Stock;
+import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.BookRepository;
 import com.librarymanagement.library.repositories.GenreRepository;
+import com.librarymanagement.library.repositories.InspectionRepository;
 import com.librarymanagement.library.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*" , maxAge = 3600)
 @RestController
@@ -28,8 +31,8 @@ public class BookController {
     GenreRepository genreRepository;
 
     @GetMapping(value="/books")
-    public List<Inspection> getBooks(){
-        return bookRepository.getBookView();
+    public List<Book> getBooks(){
+        return bookRepository.findAll();
     }
 
     @PutMapping(value = "/decrease/{id}")
@@ -107,6 +110,69 @@ public class BookController {
         book.setGenre(genreRepository.getGenreByType(bookData.getGenre().getGenreType()));
         final Book updatedBook = bookRepository.save(book);
         return ResponseEntity.ok(updatedBook);
+    }
+
+    @GetMapping("/books/pageable")
+    public Response retrieveEmployee(
+            @Param(value = "genre") String genre,
+            @Param(value = "page") int page,
+            @Param(value = "size") int size,
+            @Param(value = "yearPublished") boolean yearPublished,
+            @Param(value = "desc") boolean desc){
+
+        Page<Book> books = null;
+
+        // не се ползва жанра
+        if(genre.equals("")) {
+            // не се сортира с години
+            if(!yearPublished) {
+                Pageable requestedPage = PageRequest.of(page-1, size);
+                books = bookRepository.getBookView(requestedPage);
+            }else {
+                // с години във възходящ
+                if(!desc) {
+                    Pageable requestedPage = PageRequest.of(page-1, size, Sort.by("yearPublished"));
+                    books  = bookRepository.getBookView(requestedPage);
+                }
+                // с години и в низходящ
+                else {
+                    Pageable requestedPage = PageRequest.of(page-1, size,
+                            Sort.by("yearPublished").descending());
+                    books  = bookRepository.getBookView(requestedPage);
+                }
+            }
+            // ползва се филтър за жанр
+        } else {
+            // без годините
+            if(!yearPublished) {
+                Pageable requestedPage = PageRequest.of(page-1, size);
+                books = bookRepository.findAllByGenre(genre, requestedPage);
+            }else {
+                // с години във възходящ
+                if(!desc) {
+                    Pageable requestedPage = PageRequest.of(page-1, size, Sort.by("yearPublished"));
+                    books  = bookRepository.findAllByGenre(genre, requestedPage);
+                }
+                // с години и в низходящ
+                else {
+                    Pageable requestedPage = PageRequest.of(page-1, size,
+                            Sort.by("yearPublished").descending());
+                    books  = bookRepository.findAllByGenre(genre, requestedPage);
+                }
+            }
+        }
+
+        return new Response(books.getContent(), books.getTotalPages(), books.getNumber(), books.getSize());
+    }
+
+    @GetMapping("/book/genres")
+    public List<String> getListGenres() {
+        try {
+            return bookRepository.findDistinctGenreTypes();
+        }catch (Exception e){
+            System.out.println(e);
+            return Arrays.asList();
+        }
     }
 
 }

@@ -1,5 +1,8 @@
 package com.librarymanagement.library.entities;
 
+import com.librarymanagement.library.repositories.StockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,11 +21,12 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-    public Book(String title, String author, Integer yearPublished, Genre genre) {
+    public Book(String title, String author, Integer yearPublished, Genre genre, Stock stock) {
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
         this.genre = genre;
+        this.stock = stock;
     }
 
     @Column(name="title")
@@ -34,10 +38,12 @@ public class Book {
     @Column (name="year_published")
     private Integer yearPublished;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne
     @JoinColumn(name="genre_id", nullable=false)
     private Genre genre;
+
+    @OneToOne(mappedBy = "book")
+    private Stock stock;
 
     public String getTitle() {
         return title;
@@ -69,5 +75,13 @@ public class Book {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 }
