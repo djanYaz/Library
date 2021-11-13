@@ -1,1 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #98BF64;
+  color: white;
+  font-weight: 600;
+}
+
+
+.content {
+  display: flex;
+  margin: 28px auto 32px;
+  padding: 0 16px;
+  max-width: 960px;
+  flex-direction: column;
+}
+
+a,
+a:visited,
+a:hover {
+  color: beige;
+  text-decoration: none;
+}
+
+a:hover {
+  color: black !important;
+  background-color: #d7b17e;
+}
+
+footer {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}
+
+html, body { height: 100% !important }

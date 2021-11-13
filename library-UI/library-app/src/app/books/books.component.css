@@ -1,0 +1,19 @@
+.back {
+  background-image: url("./../../assets/images/mainback.jpg");
+  height: 100%;
+}
+
+.panel-body {
+  width: 80%;
+  -webkit-box-shadow: -1px 1px 5px 9px #ccc;
+  -moz-box-shadow: -1px 1px 5px 9px #ccc;
+  box-shadow: -1px 1px 5px 9px #ccc;
+  display: block;
+  margin-top: 10%;
+  background-color: #ccc;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+  background-color: #d7b17e;
+}
