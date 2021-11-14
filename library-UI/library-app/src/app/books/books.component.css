@@ -8,11 +8,11 @@
 
 .panel-body {
   width: 80%;
-  -webkit-box-shadow: -1px 1px 5px 9px #ccc;
-  -moz-box-shadow: -1px 1px 5px 9px #ccc;
-  box-shadow: -1px 1px 5px 9px #ccc;
+  -webkit-box-shadow: -2px 12px 5px 9px #ccc;
+  -moz-box-shadow: -2px 12px 5px 9px #ccc;
+  box-shadow: -2px 1px 5px 9px #ccc;
   display: block;
-  margin-top: 5%;
+  margin-top: 10%;
   margin-bottom: 15%;
   background-color: #ccc;
 }
@@ -20,6 +20,10 @@
 .table > tbody > tr > td,
 .table > tbody > tr > th {
   background-color: #d7b17e;
+}
+
+.table thead tr th {
+  background-color: #98BF64;
 }
 
 .btn-primary,
@@ -43,3 +47,4 @@
   background-color: #4C9A2A;
   border-color: #98BF64;
 }
+

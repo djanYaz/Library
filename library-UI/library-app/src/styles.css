@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+html, body { height: 100% !important }
+
 .toolbar {
   position: absolute;
   top: 0;
@@ -12,12 +14,13 @@
   background-color: #98BF64;
   color: white;
   font-weight: 600;
+  padding: 10px;
 }
 
 
 .content {
   display: flex;
-  margin: 28px auto 32px;
+  margin: 10px auto 32px;
   padding: 0 16px;
   max-width: 960px;
   flex-direction: column;
@@ -47,4 +50,18 @@ footer a {
   align-items: center;
 }
 
-html, body { height: 100% !important }
+.navbar {
+  padding: 10px;
+}
+
+.head {
+  background-image: url("./assets/images/headerback.jpg");
+}
+
+.img-class {
+  display:block;
+  -webkit-box-shadow: -1px 1px 5px 9px #ffffff;
+  -moz-box-shadow: -1px 1px 5px 9px #ffffff;
+  box-shadow: -1px 1px 5px 9px #ffffff;
+  margin: 5px auto;
+}
