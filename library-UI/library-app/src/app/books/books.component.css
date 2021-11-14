@@ -27,10 +27,19 @@
 .btn-primary:active,
 .btn-primary:visited,
 .btn-primary:focus {
-  background-color: #98BF64;
-  border-color: #d7b17e;
+  background-color: #4C9A2A;
+  border-color: #98BF64;
 }
 
 .bottom10 {
   margin-bottom: 10px;
+}
+
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:visited,
+.btn-danger:focus {
+  background-color: #4C9A2A;
+  border-color: #98BF64;
 }

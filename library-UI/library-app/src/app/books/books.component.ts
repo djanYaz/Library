@@ -130,4 +130,12 @@ export class BooksComponent implements OnInit {
     }
   }
 
+  deleteBook(id: number){
+    this.bookService.deleteBookByID(id).subscribe(
+      () => {
+        this.reloadData();
+      },
+      error => console.log(error));
+  }
+
 }

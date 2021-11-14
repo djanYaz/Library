@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
+import {Stock} from "./Stock";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class BookService {
         retry(3),
         catchError(this.handleError)
       );
+  }
+
+  deleteBookByID(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}` + '/decrease/' + `${id}`, { responseType: Stock });
   }
 
   private handleError(error: HttpErrorResponse) {
