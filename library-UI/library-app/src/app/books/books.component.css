@@ -48,3 +48,13 @@
   border-color: #98BF64;
 }
 
+
+.new-book{
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+.sort-and-add {
+  position: relative;
+}

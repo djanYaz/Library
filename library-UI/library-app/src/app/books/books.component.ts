@@ -138,4 +138,8 @@ export class BooksComponent implements OnInit {
       error => console.log(error));
   }
 
+  goToNewBook(){
+    this.router.navigate(['add']);
+  }
+
 }

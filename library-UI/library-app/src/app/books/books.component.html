@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center justify-content-center">
       <div class="panel-body">
         <div *ngIf="books.length">
-          <div>
+          <div class="sort-and-add">
             <h5>Желаете ли сортиране по години?</h5>
             <form>
               <div class="form-check">
@@ -20,6 +20,9 @@
               </div>
             </form>
             <button type="button" class="btn btn-primary" (click)="sortNow()">Сортирай сега</button>
+            <div class="new-book">
+              <button type="button" class="btn btn-primary" (click)="goToNewBook()">Добави книга</button>
+            </div>
           </div>
           <hr>
           <div class="form-group bottom10">
@@ -30,6 +33,7 @@
               <option *ngFor="let genre of genres">{{genre}}</option>
             </select>
           </div>
+          <hr>
           <table class="table table-hover table-bordered table-light">
           <thead class="thead-dark">
             <tr>

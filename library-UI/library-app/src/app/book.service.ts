@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {catchError, Observable, retry, throwError} from "rxjs";
+import {catchError, generate, Observable, retry, throwError} from "rxjs";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
 import {Stock} from "./Stock";
 
@@ -43,6 +43,16 @@ export class BookService {
 
   deleteBookByID(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}` + '/decrease/' + `${id}`, { responseType: Stock });
+  }
+
+  createBook(title: string, author: string, year: number, genre: string): Observable<Object> {
+    debugger;
+    const params = new HttpParams()
+      .set('title', title)
+      .set('author', author)
+      .set('year', year)
+      .set('genre', genre);
+    return this.http.post(`${this.baseUrl}` + `/newbook`,null, {params: params});
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -49,40 +49,15 @@ public class BookController {
         return ResponseEntity.ok(updatedStock);
     }
 
-//    @PostMapping("/newbook")
-//    public Book createBook(@RequestParam(required = false) String title,
-//                           @RequestParam(required = false) String author,
-//                           @RequestParam(required = false) Integer year,
-//                           @RequestParam(required = false) String genre) {
-//
-//        Long id = bookRepository.getDuplicateBook(title, author, year);
-//        Book newBook = new Book();
-//        newBook.setGenre(genreRepository.getGenreByType(genre));
-//        newBook.setAuthor(author);
-//        newBook.setYearPublished(year);
-//        newBook.setTitle(title);
-//        if(id == null) {
-//            stockRepository.save(new Stock(newBook, 1));
-//            return bookRepository.save(newBook);
-//        } else {
-//            Stock stock = stockRepository.getStockByBookId(id);
-//            stock.setNumbers(stock.getNumbers() + 1);
-//            stockRepository.save(stock);
-//            return newBook;
-//        }
-//
-//    }
-
     @PostMapping("/newbook")
-    public Book createBook(@RequestBody Book bookData) {
+    public Book createBook(@RequestParam(required = false, name = "title") String title,
+                           @RequestParam(required = false, name = "author") String author,
+                           @RequestParam(required = false, name = "year") Integer year,
+                           @RequestParam(required = false, name = "genre") String genre) {
 
-        String title = bookData.getTitle();
-        String author = bookData.getAuthor();
-        Integer year = bookData.getYearPublished();
         Long id = bookRepository.getDuplicateBook(title, author, year);
-
         Book newBook = new Book();
-        newBook.setGenre(genreRepository.getGenreByType(bookData.getGenre().getGenreType()));
+        newBook.setGenre(genreRepository.getGenreByType(genre));
         newBook.setAuthor(author);
         newBook.setYearPublished(year);
         newBook.setTitle(title);
@@ -97,6 +72,30 @@ public class BookController {
         }
 
     }
+
+//    @PostMapping("/newbook")
+//    public Book createBook(@RequestBody Book bookData) {
+//
+//        String title = bookData.getTitle();
+//        String author = bookData.getAuthor();
+//        Integer year = bookData.getYearPublished();
+//        Long id = bookRepository.getDuplicateBook(title, author, year);
+//
+//        Book newBook = new Book();
+//        newBook.setGenre(genreRepository.getGenreByType(bookData.getGenre().getGenreType()));
+//        newBook.setAuthor(author);
+//        newBook.setYearPublished(year);
+//        newBook.setTitle(title);
+//        if(id == null) {
+//            stockRepository.save(new Stock(newBook, 1));
+//            return bookRepository.save(newBook);
+//        } else {
+//            Stock stock = stockRepository.getStockByBookId(id);
+//            stock.setNumbers(stock.getNumbers() + 1);
+//            stockRepository.save(stock);
+//            return newBook;
+//        }
+//    }
 
     @PutMapping("/updateBook/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable(value = "id") Long book_id,

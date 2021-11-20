@@ -7,11 +7,13 @@ import { BooksComponent } from './books/books.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
+import { CreateBookComponent } from './create-book/create-book.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BooksComponent
+    BooksComponent,
+    CreateBookComponent
   ],
   imports: [
     BrowserModule,
