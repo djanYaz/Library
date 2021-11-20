@@ -7,7 +7,8 @@
   border-color: #98BF64;
 }
 
-.create-book {
+.create-book,
+.add-genre{
   background-color: #ccc;
   width: 40%;
   -webkit-box-shadow: -2px 12px 5px 9px #ccc;
@@ -16,6 +17,10 @@
   display: block;
   margin-top: 10%;
   margin-bottom: 15%;
+}
+
+.create-book {
+  position: relative;
 }
 
 .top10 {
@@ -29,3 +34,4 @@
 .d-flex {
   background-image: url("./../../assets/images/mainback.jpg");
 }
+

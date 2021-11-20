@@ -46,7 +46,6 @@ export class BookService {
   }
 
   createBook(title: string, author: string, year: number, genre: string): Observable<Object> {
-    debugger;
     const params = new HttpParams()
       .set('title', title)
       .set('author', author)

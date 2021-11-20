@@ -35,6 +35,22 @@
           </div>
           <p [hidden]="myForm.form.valid" style="color: red">Не сте въвели всички полета</p>
           <button type="submit" [disabled]="!myForm.form.valid" class="btn btn-primary">Запази</button>
+          <div class="top10">
+            <p><b>Пояснение: </b> <i>Не намираш жанра, който ти трябва в падащото меню? Няма проблем, можеш да го добавиш във формата вдясно <b>"Добави жанр"</b>.</i></p>
+          </div>
+        </form>
+      </div>
+      <div class="container p-5 add-genre">
+        <form (ngSubmit)="saveGenre()" #genreForm="ngForm">
+          <h3>Добави жанр</h3>
+          <div class="row top10">
+            <label for="genreType">Вид жанр</label>
+            <div class="col-sm-12">
+              <input class="form-control" type="text" id="genreType" required [(ngModel)]="genreType" name="genreType">
+            </div>
+            <p [(ngModel)]="msg" style="color: red">{{msg}}</p>
+          </div>
+          <button type="submit" [disabled]="!genreForm.form.valid" class="btn btn-primary">Запази</button>
         </form>
       </div>
     </div>

@@ -70,32 +70,8 @@ public class BookController {
             stockRepository.save(stock);
             return newBook;
         }
-
     }
 
-//    @PostMapping("/newbook")
-//    public Book createBook(@RequestBody Book bookData) {
-//
-//        String title = bookData.getTitle();
-//        String author = bookData.getAuthor();
-//        Integer year = bookData.getYearPublished();
-//        Long id = bookRepository.getDuplicateBook(title, author, year);
-//
-//        Book newBook = new Book();
-//        newBook.setGenre(genreRepository.getGenreByType(bookData.getGenre().getGenreType()));
-//        newBook.setAuthor(author);
-//        newBook.setYearPublished(year);
-//        newBook.setTitle(title);
-//        if(id == null) {
-//            stockRepository.save(new Stock(newBook, 1));
-//            return bookRepository.save(newBook);
-//        } else {
-//            Stock stock = stockRepository.getStockByBookId(id);
-//            stock.setNumbers(stock.getNumbers() + 1);
-//            stockRepository.save(stock);
-//            return newBook;
-//        }
-//    }
 
     @PutMapping("/updateBook/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable(value = "id") Long book_id,

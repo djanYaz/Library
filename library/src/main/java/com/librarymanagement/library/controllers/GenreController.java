@@ -3,10 +3,8 @@ package com.librarymanagement.library.controllers;
 import com.librarymanagement.library.entities.Genre;
 import com.librarymanagement.library.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +23,18 @@ public class GenreController {
         }catch (Exception e){
             System.out.println(e);
             return Arrays.asList();
+        }
+    }
+
+    @PostMapping("/newgenre")
+    public String addGenre(@RequestParam(value = "genreType") String genreType){
+        Genre genre = genreRepository.getGenreByType(genreType);
+        if(genre == null) {
+            Genre newGenre = new Genre(genreType);
+            genreRepository.save(newGenre);
+            return "Успешно добавен жанр!";
+        } else {
+            return "Този жанр вече съществува!";
         }
     }
 }

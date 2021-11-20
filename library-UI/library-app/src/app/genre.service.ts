@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Genre} from "./genre";
 
@@ -16,6 +16,11 @@ export class GenreService {
         retry(3),
         catchError(this.handleError)
       );
+  }
+
+  addNewGenreType(genreType: string): Observable<any> {
+    const params = new HttpParams().set('genreType', genreType);
+    return this.http.post(`${this.baseUrl}` + `/newgenre`, null, {params: params, responseType: "text"});
   }
 
   private handleError(error: HttpErrorResponse) {
