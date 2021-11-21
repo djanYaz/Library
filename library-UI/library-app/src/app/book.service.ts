@@ -16,15 +16,14 @@ export class BookService {
   }
 
   getPageableBooks(pageNumber: number,
-                      pageSize: number, genre: string,
-                      yearsorting: boolean, desc: boolean): Observable<any> {
+                   pageSize: number, genre: string,
+                   asc: boolean): Observable<any> {
 
     let params = new HttpParams();
     params = params.append('page', pageNumber.toString());
     params = params.append('size', pageSize.toString());
     params = params.append('genre', genre.toString());
-    params = params.append('yearPublished', yearsorting.toString());
-    params = params.append('desc', desc.toString());
+    params = params.append('asc', asc.toString());
 
     return this.http.get<any>(`${this.baseUrl}` + `/books/pageable`, { params })
       .pipe(

@@ -88,24 +88,18 @@ public class BookController {
     }
 
     @GetMapping("/books/pageable")
-    public Response retrieveEmployee(
+    public Response retrieveBooks(
             @Param(value = "genre") String genre,
             @Param(value = "page") int page,
             @Param(value = "size") int size,
-            @Param(value = "yearPublished") boolean yearPublished,
-            @Param(value = "desc") boolean desc){
+            @Param(value = "asc") boolean asc){
 
         Page<Book> books = null;
 
         // не се ползва жанра
         if(genre.equals("")) {
-            // не се сортира с години
-            if(!yearPublished) {
-                Pageable requestedPage = PageRequest.of(page-1, size);
-                books = bookRepository.getBookView(requestedPage);
-            }else {
                 // с години във възходящ
-                if(!desc) {
+                if(asc) {
                     Pageable requestedPage = PageRequest.of(page-1, size, Sort.by("yearPublished"));
                     books  = bookRepository.getBookView(requestedPage);
                 }
@@ -115,16 +109,11 @@ public class BookController {
                             Sort.by("yearPublished").descending());
                     books  = bookRepository.getBookView(requestedPage);
                 }
-            }
-            // ползва се филтър за жанр
+
+                // ползва се филтър за жанр
         } else {
-            // без годините
-            if(!yearPublished) {
-                Pageable requestedPage = PageRequest.of(page-1, size);
-                books = bookRepository.findAllByGenre(genre, requestedPage);
-            }else {
                 // с години във възходящ
-                if(!desc) {
+                if(asc) {
                     Pageable requestedPage = PageRequest.of(page-1, size, Sort.by("yearPublished"));
                     books  = bookRepository.findAllByGenre(genre, requestedPage);
                 }
@@ -134,7 +123,6 @@ public class BookController {
                             Sort.by("yearPublished").descending());
                     books  = bookRepository.findAllByGenre(genre, requestedPage);
                 }
-            }
         }
 
         return new Response(books.getContent(), books.getTotalPages(), books.getNumber(), books.getSize());
