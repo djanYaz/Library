@@ -8,11 +8,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import { CreateBookComponent } from './create-book/create-book.component';
+import {ReadersComponent} from "./readers/readers.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     BooksComponent,
+    ReadersComponent,
     CreateBookComponent
   ],
   imports: [
@@ -20,7 +22,7 @@ import { CreateBookComponent } from './create-book/create-book.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
