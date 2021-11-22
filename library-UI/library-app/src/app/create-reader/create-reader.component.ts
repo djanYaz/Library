@@ -24,7 +24,7 @@ export class CreateReaderComponent implements OnInit {
   }
 
   save() {
-    this.readerService.createReader(this.first_name, this.last_name, this.city, this.phone,this.email,this.borrow_number)
+    this.readerService.createReader(this.first_name, this.last_name, this.city, this.phone,this.email)
       .subscribe(data => console.log(data), error => console.log(error));
   }
 }

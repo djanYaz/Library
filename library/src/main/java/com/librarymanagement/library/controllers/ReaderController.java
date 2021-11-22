@@ -62,10 +62,10 @@ public class ReaderController {
         newReader.setBorrow_number(0);
 
         if(id==null){
+            newReader =readerRepository.save(newReader);
             return "Няма такъв читател";
         }else {
-            newReader =readerRepository.save(newReader);
-            return "Читателят е създаден";
+            return "Читателят съществува";
         }
 
     }
@@ -80,7 +80,6 @@ public class ReaderController {
         reader.setCity(readerData.getCity());
         reader.setPhone(readerData.getPhone());
         reader.setEmail(readerData.getEmail());
-        reader.setBorrow_number(0);
 
         final Reader updatedReader = readerRepository.save(reader);
         return ResponseEntity.ok(updatedReader);
