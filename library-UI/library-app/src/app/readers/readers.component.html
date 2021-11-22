@@ -1,0 +1,50 @@
+<div class="back">
+  <div class="panel panel-primary">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="panel-body">
+<!--        <div *ngIf="readers.length">-->
+          <div class="form-group bottom10">
+            <label>Сортиране по град:</label>
+            <select class="form-control" id="city_filtering"
+                    (change)="getReadersPagesWithCityFiltering($any($event.target).value)">
+              <option>Всички</option>
+              <option *ngFor="let city of cities">{{city}}</option>
+            </select>
+          </div>
+          <table class="table table-hover table-bordered table-light">
+            <thead class="thead-dark">
+            <tr>
+              <th>Име</th>
+              <th>Фамилия</th>
+              <th>Град</th>
+              <th>Номер</th>
+              <th>Email</th>
+              <th>Номер</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let reader of readers">
+              <td>{{reader.first_name}}</td>
+              <td>{{reader.last_name}}</td>
+              <td>{{reader.city}}</td>
+              <td>{{reader.email}}</td>
+              <td>{{reader.borrow_number}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <ul class="pagination justify-content-center">
+            <li class="page-item"><a (click)="previousClick()" class="page-link">Previous</a></li>
+            <li *ngFor='let index of pageIndexes' class="page-item">
+              <a (click)="getPaginationWithIndex(index)" class="page-link">
+                {{index + 1}}
+              </a>
+            </li>
+            <li class="page-item"><a (click)="nextClick()" class="page-link">Next</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--</div>-->
+
