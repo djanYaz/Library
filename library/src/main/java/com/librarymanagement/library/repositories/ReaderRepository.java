@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReaderRepository extends JpaRepository<Reader,Long> {
 
 
-    @Query(value = "SELECT id FROM reader WHERE first_name = :first_name AND last_name = :last_name AND phone=:phone", nativeQuery = true)
+    @Query(value = "SELECT id FROM reader WHERE first_name = :first_name AND last_name = :last_name AND phone = :phone", nativeQuery = true)
     Long getDuplicateReader(String first_name, String last_name,String phone);
 
     @Query(value = "SELECT r FROM Reader r WHERE r.city=:city")
@@ -21,4 +21,5 @@ public interface ReaderRepository extends JpaRepository<Reader,Long> {
 
     @Query("SELECT DISTINCT r.city FROM Reader r")
     List<String> findDistinctCity();
+
 }
