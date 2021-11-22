@@ -4,6 +4,7 @@ import com.librarymanagement.library.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="book")
@@ -11,6 +12,12 @@ public class Book {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "book")
+    Set<BorrowedBook> borrowedBooks;
+
+    @OneToMany(mappedBy = "book")
+    Set<OutOfStock> outOfStocks;
 
     public Book() {
     }

@@ -12,6 +12,12 @@ public class Reader {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(mappedBy = "reader")
+    Set<BorrowedBook> borrowedBooks;
+
+    @OneToMany(mappedBy = "reader")
+    Set<OutOfStock> outOfStocks;
+
     public Reader() {
     }
 
@@ -95,5 +101,13 @@ public class Reader {
 
     public void setBorrow_number(Integer borrow_number) {
         this.borrow_number = borrow_number;
+    }
+
+    public Set<BorrowedBook> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(Set<BorrowedBook> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
     }
 }
