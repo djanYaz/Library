@@ -6,6 +6,7 @@
   background-color: #4C9A2A;
   border-color: #98BF64;
 }
+.button_example {float: right}
 .create-book,
 .add-genre{
   background-color: #ccc;

@@ -3,7 +3,6 @@ import {ReaderService} from "../reader.service";
 import { Router } from '@angular/router';
 import {Reader} from "../reader";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
-import {Book} from "../book";
 
 const pageSize = 5;
 
@@ -109,5 +108,8 @@ export class ReadersComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+  goToNewReader(){
+    this.router.navigate(['addreader']);
   }
 }

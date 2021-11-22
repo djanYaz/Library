@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
+import {Stock} from "./Stock";
 
 @Injectable({
   providedIn: 'root'
@@ -54,4 +55,16 @@ export class ReaderService {
         catchError(this.handleError)
       );
    }
+  createReader(first_name: string, last_name: string, city: string, phone: number, email:string, borrow_number:number): Observable<Object> {
+    const params = new HttpParams()
+      .set('first_name', first_name)
+      .set('last_name', last_name)
+      .set('city', city)
+      .set('phone', phone)
+      .set('email', email)
+      .set('norrow_number', borrow_number)
+    ;
+    return this.http.post(`${this.baseUrl}` + `/newreader`,null, {params: params});
+  }
+
   }

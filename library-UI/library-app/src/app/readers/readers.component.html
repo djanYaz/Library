@@ -2,9 +2,12 @@
   <div class="panel panel-primary">
     <div class="d-flex align-items-center justify-content-center">
       <div class="panel-body">
-<!--        <div *ngIf="readers.length">-->
+        <div *ngIf="readers.length">
           <div class="form-group bottom10">
             <label>Сортиране по град:</label>
+            <div class="new-reader">
+              <button type="button" class="btn btn-primary" (click)="goToNewReader()">Добави читател</button>
+            </div>
             <select class="form-control" id="city_filtering"
                     (change)="getReadersPagesWithCityFiltering($any($event.target).value)">
               <option>Всички</option>
@@ -17,9 +20,9 @@
               <th>Име</th>
               <th>Фамилия</th>
               <th>Град</th>
-              <th>Номер</th>
+              <th>Телефонен номер</th>
               <th>Email</th>
-              <th>Номер</th>
+              <th>Брой взети книги</th>
               <th>Действия</th>
             </tr>
             </thead>
@@ -28,6 +31,7 @@
               <td>{{reader.first_name}}</td>
               <td>{{reader.last_name}}</td>
               <td>{{reader.city}}</td>
+              <td>{{reader.phone}}</td>
               <td>{{reader.email}}</td>
               <td>{{reader.borrow_number}}</td>
             </tr>
@@ -46,5 +50,5 @@
       </div>
     </div>
   </div>
-<!--</div>-->
+</div>
 
