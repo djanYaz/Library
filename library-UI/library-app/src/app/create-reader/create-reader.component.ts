@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Reader} from "../reader";
-import {ReaderService} from "../reader.service";
-import {BookService} from "../book.service";
+import {ReaderService} from "../reader.service"
 import {Router} from "@angular/router";
 @Component({
   selector: 'app-create-reader',
@@ -15,7 +13,6 @@ export class CreateReaderComponent implements OnInit {
   city:string;
   phone:number;
   email:string;
-  borrow_number:number;
   msg: string = '';
 
   constructor(private readerService: ReaderService, private router: Router) { }
@@ -26,5 +23,13 @@ export class CreateReaderComponent implements OnInit {
   save() {
     this.readerService.createReader(this.first_name, this.last_name, this.city, this.phone,this.email)
       .subscribe(data => console.log(data), error => console.log(error));
+  }
+  onSubmit() {
+    this.save();
+    this.gotoList();
+  }
+
+  gotoList() {
+    this.router.navigate(['readers']);
   }
 }

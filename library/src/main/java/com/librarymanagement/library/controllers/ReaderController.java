@@ -59,7 +59,6 @@ public class ReaderController {
         newReader.setCity(city);
         newReader.setPhone(phone);
         newReader.setEmail(email);
-        newReader.setBorrow_number(0);
 
         if(id==null){
             newReader =readerRepository.save(newReader);

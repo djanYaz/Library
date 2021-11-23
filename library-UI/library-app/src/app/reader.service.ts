@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
-import {Stock} from "./Stock";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,7 @@ export class ReaderService {
   getReaderList(): Observable<any> {
     return this.http.get(`${this.baseUrl}` + `/readers`)
   }
+
  /* deleteBookByID(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}` + '/delete/' + `${id}`, { responseType: Stock });
   }*/
