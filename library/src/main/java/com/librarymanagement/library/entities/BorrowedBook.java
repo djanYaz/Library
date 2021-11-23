@@ -1,5 +1,7 @@
 package com.librarymanagement.library.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,10 +22,12 @@ public class BorrowedBook {
         this.returnDate = returnDate;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "reader_id")
     Reader reader;

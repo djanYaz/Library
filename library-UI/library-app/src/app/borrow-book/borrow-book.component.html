@@ -1,0 +1,32 @@
+<div class="back">
+  <div class="panel panel-primary">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="container p-5 borrow-book">
+        <h3>Отдаване на книга</h3>
+        <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+          <div class="row top10">
+            <label for="reader">Читател</label>
+            <div class="col-sm-12">
+              <select data-live-search="true" (change)="onChangeReader($any($event.target).value)" class="form-control" id="reader" required>
+                <option [value]="reader.id" *ngFor="let reader of readers">{{reader.first_name + ' ' + reader.last_name + ' с тел: ' + reader.phone}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row top10">
+            <label for="book">Книга</label>
+            <div class="col-sm-12">
+              <select  data-live-search="true" (change)="onChangeBook($any($event.target).value)" class="form-control" id="book" required>
+                <option [value]="book.id" *ngFor="let book of books">{{book.title}}</option>
+              </select>
+            </div>
+          </div>
+            <p [(ngModel)]="msg" style="color: red">{{msg}}</p>
+          <button type="submit" [disabled]="!myForm.form.valid" class="btn btn-primary">Запази</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

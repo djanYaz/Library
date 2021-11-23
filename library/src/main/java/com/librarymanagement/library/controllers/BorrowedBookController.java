@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin(origins = "*" , maxAge = 3600)
 @RestController
@@ -27,6 +28,11 @@ public class BorrowedBookController {
 
     @Autowired
     OutOfStockRepository outOfStockRepository;
+
+    @GetMapping("all")
+    public List<BorrowedBook> getAllBorrows(){
+        return borrowedBookRepository.findAll();
+    }
 
     @PostMapping("givebook")
     public String GiveBook(@RequestParam(required = false, name = "reader_id") Long reader_id,
