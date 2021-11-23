@@ -23,8 +23,7 @@ export class BooksComponent implements OnInit {
   selectedGenre = '';
 
   // sorting
-  yearsorting = false;
-  desc = false;
+  asc: boolean = true;
 
   constructor(private bookService: BookService, private router: Router) {
   }
@@ -34,35 +33,18 @@ export class BooksComponent implements OnInit {
   }
 
   reloadData(){
-    this.getPage(1, '', false, false);
+    this.getPage(1, '', true);
     this.getGenres();
     console.log('Някакъв текст');
   }
 
-  // getAllBooks(){
-  //   this.bookService.getBookList().subscribe(books =>
-  //   this.books = books)
-  // }
-
-  onYearSortingChange(value: any){
-    this.yearsorting= !this.yearsorting;
-    if (!this.yearsorting){
-      this.desc = false;
-    }
-  }
-
   sortNow(){
-    if (this.desc && !this.yearsorting){
-      alert('Please select \'yearsorting\' option before selecting \'desc\' option!');
-      return;
-    }
-    // load again from backend for sorting with year field
-    this.getPage(1, this.selectedGenre, this.yearsorting, this.desc);
+    this.getPage(1, this.selectedGenre, this.asc);
   }
 
-  getPage(page: number, selectedGenre: string, yearsorting: boolean, desc: boolean){
+  getPage(page: number, selectedGenre: string, asc: boolean){
     this.bookService.getPageableBooks(page, pageSize, selectedGenre,
-      yearsorting, desc)
+      asc)
       .subscribe(
         data => {
           console.log(data);
@@ -78,7 +60,7 @@ export class BooksComponent implements OnInit {
   }
 
   getPaginationWithIndex(index: number) {
-    this.getPage(index+1, this.selectedGenre, this.yearsorting, this.desc);
+    this.getPage(index+1, this.selectedGenre, this.asc);
   }
 
   getBooksPagesWithGenreFiltering(optionValue: any) {
@@ -88,7 +70,7 @@ export class BooksComponent implements OnInit {
       this.selectedGenre = '';
     }
 
-    this.getPage(1, this.selectedGenre, this.yearsorting, this.desc);
+    this.getPage(1, this.selectedGenre, this.asc);
   }
 
   getGenres(){
@@ -119,14 +101,14 @@ export class BooksComponent implements OnInit {
   nextClick(){
     if (this.currentSelectedPage < this.totalPages - 1){
       this.getPage(++this.currentSelectedPage + 1 ,
-        this.selectedGenre, this.yearsorting, this.desc);
+        this.selectedGenre, this.asc);
     }
   }
 
   previousClick(){
     if (this.currentSelectedPage > 0){
       this.getPage(--this.currentSelectedPage + 1,
-        this.selectedGenre, this.yearsorting, this.desc);
+        this.selectedGenre, this.asc);
     }
   }
 

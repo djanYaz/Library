@@ -33,7 +33,7 @@ public class ReaderController {
     public List<Reader> getReaders(){return readerRepository.findAll();}
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteReader(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> deleteReader(@PathVariable Long id){
 
         if(!readerRepository.existsById(id)){
             return ResponseEntity.ok("No such Reader!");

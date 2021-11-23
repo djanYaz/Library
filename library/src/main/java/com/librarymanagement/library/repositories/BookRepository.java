@@ -23,7 +23,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "SELECT b FROM Book b WHERE b.genre.genreType= :genre AND b.stock.numbers > 0")
     Page<Book> findAllByGenre(String genre, Pageable requestedPage);
 
-    @Query("SELECT DISTINCT b.genre.genreType FROM Book b")
+    @Query("SELECT DISTINCT b.genre.genreType FROM Book b WHERE b.stock.numbers > 0")
     List<String> findDistinctGenreTypes();
+
+    @Query("SELECT b.stock.numbers FROM Book b WHERE b.id = :book_id")
+    Long getBookStockById(Long book_id);
 
 }

@@ -112,4 +112,11 @@ export class ReadersComponent implements OnInit {
   goToNewReader(){
     this.router.navigate(['addreader']);
   }
+  deleteReader(id: number){
+    this.readerService.deleteReaderById(id).subscribe(
+      () => {
+        this.reloadData();
+      },
+      error => console.log(error));
+  }
 }
