@@ -39,7 +39,7 @@ public class BorrowedBookController {
                            @RequestParam(required = false, name = "book_id") Long book_id) throws Exception {
         Date today = new Date();
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        LocalDate localDate = LocalDate.now().plusDays(15);
+        LocalDate localDate = LocalDate.now().plusDays(30);
         Date returnDate = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         Reader reader = readerRepository.findById(reader_id).orElseThrow(() -> new Exception("Reader not found for this id :: " + reader_id));
         Book book = bookRepository.findById(book_id).orElseThrow(() -> new Exception("Book not found for this id :: " + book_id));
