@@ -10,6 +10,7 @@ import {CommonModule} from "@angular/common";
 import { CreateBookComponent } from './create-book/create-book.component';
 import {ReadersComponent} from "./readers/readers.component";
 import { CreateReaderComponent } from './create-reader/create-reader.component';
+import { UpdateReaderComponent } from './update-reader/update-reader.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CreateReaderComponent } from './create-reader/create-reader.component';
     BooksComponent,
     ReadersComponent,
     CreateBookComponent,
-    CreateReaderComponent
+    CreateReaderComponent,
+    UpdateReaderComponent
   ],
   imports: [
     BrowserModule,

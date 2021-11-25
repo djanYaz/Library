@@ -8,10 +8,16 @@ import {Reader} from "./reader";
   providedIn: 'root'
 })
 export class ReaderService {
+
   private baseUrl = 'http://localhost:8080/springboot-crud-rest/customer';
+
   constructor(private http: HttpClient ) { }
+
   getReaderList(): Observable<any> {
     return this.http.get(`${this.baseUrl}` + `/readers`)
+  }
+  getReader(id:number): Observable<any>{
+    return this.http.get(`${this.baseUrl}` + `/readers/`+'${id}');
   }
 
   deleteReaderById(id: number): Observable<any> {
@@ -66,5 +72,7 @@ export class ReaderService {
     ;
     return this.http.post(`${this.baseUrl}` + `/newreader`,null, {params: params});
   }
-
+  updateReader(id:number,value:any): Observable<Object> {
+    return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
   }
+}

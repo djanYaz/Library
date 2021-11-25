@@ -34,6 +34,7 @@
               <td>{{reader.email}}</td>
               <td>
                 <button (click)="deleteReader(reader.id)" class="btn btn-danger">Изтрий</button>
+                <button class="btn btn-danger" (click)= updateReader()>Обнови</button>
               </td>
             </tr>
             </tbody>

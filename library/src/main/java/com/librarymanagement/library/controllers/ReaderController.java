@@ -32,6 +32,13 @@ public class ReaderController {
     @GetMapping(value = "/readers")
     public List<Reader> getReaders(){return readerRepository.findAll();}
 
+    @GetMapping(value="/readers/{id}")
+    public ResponseEntity<Reader> getReaderById(@PathVariable(value = "id") Long id)
+            throws Exception {
+        Reader reader = readerRepository.findById(id)
+                .orElseThrow(() -> new Exception("Employee not found for this id :: " + id));
+        return ResponseEntity.ok().body(reader);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteReader(@PathVariable Long id){
 
@@ -68,7 +75,7 @@ public class ReaderController {
         }
 
     }
-    @PostMapping("/updateReader/{id}")
+    @PutMapping("/updatereader/{id}")
     public ResponseEntity<Reader> updateReader(@PathVariable(value = "id") Long reader_id,
                                                @RequestBody Reader readerData) throws Exception {
         Reader reader = readerRepository.findById(reader_id)

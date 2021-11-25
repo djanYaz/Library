@@ -15,9 +15,11 @@ const pageSize = 5;
 export class ReadersComponent implements OnInit {
 
   readers: Array<Reader> = [];
+  id:number;
   currentSelectedPage = 0;
   totalPages = 0;
   pageIndexes: Array<number> = [];
+  currentId:number;
 
   city = '';
   cities: Array<string> = [];
@@ -111,6 +113,11 @@ export class ReadersComponent implements OnInit {
   }
   goToNewReader(){
     this.router.navigate(['addreader']);
+  }
+
+  updateReader(){
+    this.router.navigate(['updatereader']);
+
   }
   deleteReader(id: number){
     this.readerService.deleteReaderById(id).subscribe(
