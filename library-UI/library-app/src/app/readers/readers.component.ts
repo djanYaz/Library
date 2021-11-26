@@ -99,7 +99,6 @@ export class ReadersComponent implements OnInit {
     }
   }
   getCities() {
-    debugger;
     this.readerService.getListCities()
       .subscribe(
         (cities: Array<string>) => {
@@ -115,8 +114,8 @@ export class ReadersComponent implements OnInit {
     this.router.navigate(['addreader']);
   }
 
-  updateReader(){
-    this.router.navigate(['updatereader']);
+  gotoUpdateReader(id: number){
+    this.router.navigate(['updatereader',id]);
 
   }
   deleteReader(id: number){

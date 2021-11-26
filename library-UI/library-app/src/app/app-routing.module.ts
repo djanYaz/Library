@@ -14,7 +14,7 @@ const routes: Routes = [
   {path:'', redirectTo: 'readers', pathMatch: 'full'},
   {path:"readers",component: ReadersComponent},
   {path:"addreader",component:CreateReaderComponent},
-  {path:"updatereader",component:UpdateReaderComponent}
+  {path:'updatereader/:id',component:UpdateReaderComponent},
 ];
 
 @NgModule({

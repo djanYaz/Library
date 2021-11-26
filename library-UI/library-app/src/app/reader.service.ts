@@ -17,7 +17,7 @@ export class ReaderService {
     return this.http.get(`${this.baseUrl}` + `/readers`)
   }
   getReader(id:number): Observable<any>{
-    return this.http.get(`${this.baseUrl}` + `/readers/`+'${id}');
+    return this.http.get(`${this.baseUrl}` + `/readers/`+`${id}`);
   }
 
   deleteReaderById(id: number): Observable<any> {
@@ -55,7 +55,6 @@ export class ReaderService {
       'Something bad happened; please try again later.');
   }
   getListCities(): Observable<Array<string>> {
-    debugger;
     return this.http.get<Array<string>>(`${this.baseUrl}` + `/cities`)
       .pipe(
         retry(3),
@@ -73,6 +72,7 @@ export class ReaderService {
     return this.http.post(`${this.baseUrl}` + `/newreader`,null, {params: params});
   }
   updateReader(id:number,value:any): Observable<Object> {
+    debugger;
     return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
   }
 }
