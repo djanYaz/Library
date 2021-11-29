@@ -1,11 +1,12 @@
 .back {
   height: 100%;
 }
-
 .d-flex {
   background-image: url("./../../assets/images/mainback.jpg");
 }
-
+.new-reader{
+  text-align: right;
+}
 .panel-body {
   width: 80%;
   -webkit-box-shadow: -2px 12px 5px 9px #ccc;

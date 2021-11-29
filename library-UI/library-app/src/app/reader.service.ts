@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
+import {Reader} from "./reader";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReaderService {
+
   private baseUrl = 'http://localhost:8080/springboot-crud-rest/customer';
+
   constructor(private http: HttpClient ) { }
+
   getReaderList(): Observable<any> {
     return this.http.get(`${this.baseUrl}` + `/readers`)
   }
- /* deleteBookByID(id: number): Observable<any> {
-    return this.http.put(`${this.baseUrl}` + '/delete/' + `${id}`, { responseType: Stock });
-  }*/
+  getReader(id:number): Observable<any>{
+    return this.http.get(`${this.baseUrl}` + `/readers/`+`${id}`);
+  }
+
+  deleteReaderById(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}` + '/delete/' + `${id}`);
+  }
   getPageableReaders(pageNumber: number,
                    pageSize: number,
                    city: string): Observable<any> {
@@ -47,11 +55,24 @@ export class ReaderService {
       'Something bad happened; please try again later.');
   }
   getListCities(): Observable<Array<string>> {
-    debugger;
     return this.http.get<Array<string>>(`${this.baseUrl}` + `/cities`)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
    }
+  createReader(first_name: string, last_name: string, city: string, phone: number, email:string): Observable<Object> {
+    const params = new HttpParams()
+      .set('first_name', first_name)
+      .set('last_name', last_name)
+      .set('city', city)
+      .set('phone', phone)
+      .set('email', email)
+    ;
+    return this.http.post(`${this.baseUrl}` + `/newreader`,null, {params: params});
   }
+  updateReader(id:number,value:any): Observable<Object> {
+    debugger;
+    return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
+  }
+}

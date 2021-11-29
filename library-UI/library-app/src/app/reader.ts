@@ -5,5 +5,4 @@ export class Reader{
   city:string;
   phone:number;
   email:string;
-  borrow_number:number;
 }
