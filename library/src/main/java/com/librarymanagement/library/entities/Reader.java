@@ -92,15 +92,6 @@ public class Reader {
         this.email = email;
     }
 
-}
-    public Integer getBorrow_number() {
-        return borrow_number;
-    }
-
-    public void setBorrow_number(Integer borrow_number) {
-        this.borrow_number = borrow_number;
-    }
-
     public Set<BorrowedBook> getBorrowedBooks() {
         return borrowedBooks;
     }
