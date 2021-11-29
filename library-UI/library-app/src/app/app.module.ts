@@ -9,13 +9,17 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import { CreateBookComponent } from './create-book/create-book.component';
 import {ReadersComponent} from "./readers/readers.component";
+import { CreateReaderComponent } from './create-reader/create-reader.component';
+import { UpdateReaderComponent } from './update-reader/update-reader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BooksComponent,
     ReadersComponent,
-    CreateBookComponent
+    CreateBookComponent,
+    CreateReaderComponent,
+    UpdateReaderComponent
   ],
   imports: [
     BrowserModule,

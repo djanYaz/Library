@@ -6,8 +6,8 @@
   background-color: #4C9A2A;
   border-color: #98BF64;
 }
-.create-book,
-.add-genre{
+.button_example {float: right}
+.create-reader{
   background-color: #ccc;
   width: 40%;
   -webkit-box-shadow: -2px 12px 5px 9px #ccc;
@@ -18,7 +18,7 @@
   margin-bottom: 15%;
 }
 
-.create-book {
+.create-reader {
   position: relative;
 }
 

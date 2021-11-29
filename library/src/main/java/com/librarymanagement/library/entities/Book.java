@@ -4,6 +4,7 @@ import com.librarymanagement.library.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="book")
