@@ -3,7 +3,6 @@ import {ReaderService} from "../reader.service";
 import { Router } from '@angular/router';
 import {Reader} from "../reader";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
-import {Book} from "../book";
 
 const pageSize = 5;
 
@@ -16,9 +15,11 @@ const pageSize = 5;
 export class ReadersComponent implements OnInit {
 
   readers: Array<Reader> = [];
+  id:number;
   currentSelectedPage = 0;
   totalPages = 0;
   pageIndexes: Array<number> = [];
+  currentId:number;
 
   city = '';
   cities: Array<string> = [];
@@ -98,7 +99,6 @@ export class ReadersComponent implements OnInit {
     }
   }
   getCities() {
-    debugger;
     this.readerService.getListCities()
       .subscribe(
         (cities: Array<string>) => {
@@ -109,5 +109,20 @@ export class ReadersComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+  goToNewReader(){
+    this.router.navigate(['addreader']);
+  }
+
+  gotoUpdateReader(id: number){
+    this.router.navigate(['updatereader',id]);
+
+  }
+  deleteReader(id: number){
+    this.readerService.deleteReaderById(id).subscribe(
+      () => {
+        this.reloadData();
+      },
+      error => console.log(error));
   }
 }

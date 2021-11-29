@@ -32,8 +32,15 @@ public class ReaderController {
     @GetMapping(value = "/readers")
     public List<Reader> getReaders(){return readerRepository.findAll();}
 
+    @GetMapping(value="/readers/{id}")
+    public ResponseEntity<Reader> getReaderById(@PathVariable(value = "id") Long id)
+            throws Exception {
+        Reader reader = readerRepository.findById(id)
+                .orElseThrow(() -> new Exception("Employee not found for this id :: " + id));
+        return ResponseEntity.ok().body(reader);
+    }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteReader(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> deleteReader(@PathVariable Long id){
 
         if(!readerRepository.existsById(id)){
             return ResponseEntity.ok("No such Reader!");
@@ -45,30 +52,43 @@ public class ReaderController {
 
 
     @PostMapping("/newreader")
-    public  ResponseEntity<?> createReader(@RequestParam(required = false) String first_name,
+    public  String  createReader(@RequestParam(required = false) String first_name,
                                 @RequestParam(required = false) String last_name,
                                 @RequestParam(required = false) String city,
                                 @RequestParam(required = false) String phone,
-                                @RequestParam(required = false) String email) {
+                                @RequestParam(required = false) String email){
+
         Long id=readerRepository.getDuplicateReader(first_name,last_name,phone);
-        boolean isNew = id == null;
 
-        Reader reader= new Reader(first_name,last_name,city,phone,email);
-        reader =readerRepository.save(reader);
+        Reader newReader= new Reader();
+        newReader.setFirst_name(first_name);
+        newReader.setLast_name(last_name);
+        newReader.setCity(city);
+        newReader.setPhone(phone);
+        newReader.setEmail(email);
 
-        Map<String,Object> response = new HashMap<>();
-        response.put("generatedFName",reader.getFirst_name());
-        response.put("generatedLName",reader.getLast_name());
-        response.put("generatedCity",reader.getCity());
-        response.put("generatedPhone",reader.getPhone());
-        response.put("generatedEmail",reader.getEmail());
-
-        if(isNew){
-            response.put("message","Successfully added!");
+        if(id==null){
+            newReader =readerRepository.save(newReader);
+            return "Няма такъв читател";
         }else {
-            response.put("message","Successfully edited!");
+            return "Читателят съществува";
         }
-        return  new  ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+    @PutMapping("/updatereader/{id}")
+    public ResponseEntity<Reader> updateReader(@PathVariable(value = "id") Long reader_id,
+                                               @RequestBody Reader readerData) throws Exception {
+        Reader reader = readerRepository.findById(reader_id)
+                .orElseThrow(() -> new Exception("Reader not found for this id :: " + reader_id));
+
+        reader.setFirst_name(readerData.getFirst_name());
+        reader.setLast_name(readerData.getLast_name());
+        reader.setCity(readerData.getCity());
+        reader.setPhone(readerData.getPhone());
+        reader.setEmail(readerData.getEmail());
+
+        final Reader updatedReader = readerRepository.save(reader);
+        return ResponseEntity.ok(updatedReader);
 
     }
     @GetMapping("/readers/pageable")
