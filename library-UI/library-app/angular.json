@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "rxjs-compat",
+              "core-js",
+              "raf"
+            ],
             "outputPath": "dist/library-app",
             "index": "src/index.html",
             "main": "src/main.ts",

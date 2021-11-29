@@ -11,6 +11,7 @@ import { CreateBookComponent } from './create-book/create-book.component';
 import {ReadersComponent} from "./readers/readers.component";
 import { CreateReaderComponent } from './create-reader/create-reader.component';
 import { UpdateReaderComponent } from './update-reader/update-reader.component';
+import { BorrowBookComponent } from './borrow-book/borrow-book.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UpdateReaderComponent } from './update-reader/update-reader.component';
     ReadersComponent,
     CreateBookComponent,
     CreateReaderComponent,
-    UpdateReaderComponent
+    UpdateReaderComponent,
+    BorrowBookComponent
   ],
   imports: [
     BrowserModule,

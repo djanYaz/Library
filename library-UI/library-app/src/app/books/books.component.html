@@ -27,7 +27,7 @@
           <hr>
           <div class="form-group bottom10">
             <label>Сортиране по жанр:</label>
-            <select data-live-search="true" class="form-control" id="genre_filtering"
+            <select data-live-search="true" class="form-select" id="genre_filtering"
                     (change)="getBooksPagesWithGenreFiltering($any($event.target).value)">
               <option>Всички</option>
               <option *ngFor="let genre of genres">{{genre}}</option>

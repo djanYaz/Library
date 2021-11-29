@@ -13,6 +13,12 @@ public class Book {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(mappedBy = "book")
+    Set<BorrowedBook> borrowedBooks;
+
+    @OneToMany(mappedBy = "book")
+    Set<OutOfStock> outOfStocks;
+
     public Book() {
     }
 
