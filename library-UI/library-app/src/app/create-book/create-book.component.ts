@@ -62,11 +62,11 @@ export class CreateBookComponent implements OnInit {
     this.genreService.addNewGenreType(this.genreType).subscribe(
       data => {
         this.msg = data;
+        this.getGenres();
       },
       (error: any) => {
         console.log(error);
       }
     );
-    this.getGenres();
   }
 }

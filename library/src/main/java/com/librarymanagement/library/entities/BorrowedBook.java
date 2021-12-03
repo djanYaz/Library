@@ -22,12 +22,10 @@ public class BorrowedBook {
         this.returnDate = returnDate;
     }
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "reader_id")
     Reader reader;
@@ -68,5 +66,9 @@ public class BorrowedBook {
 
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

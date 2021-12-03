@@ -1,5 +1,6 @@
 package com.librarymanagement.library.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.librarymanagement.library.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +14,7 @@ public class Book {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book")
     Set<BorrowedBook> borrowedBooks;
 

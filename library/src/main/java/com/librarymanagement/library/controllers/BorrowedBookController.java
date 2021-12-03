@@ -3,6 +3,7 @@ package com.librarymanagement.library.controllers;
 import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class BorrowedBookController {
 
     @GetMapping("all")
     public List<BorrowedBook> getAllBorrows(){
-        return borrowedBookRepository.findAll();
+        return borrowedBookRepository.getOrderedBorrowedBooks();
     }
 
     @PostMapping("givebook")
@@ -61,5 +62,15 @@ public class BorrowedBookController {
             return "Вече сте взели допустимото количество книги";
         }
         return "Не е успешно!";
+    }
+
+    @PutMapping(value = "/decrease/{id}")
+    public void returnBook(@PathVariable(value = "id") Long id) throws Exception {
+        BorrowedBook forDeletion = borrowedBookRepository.getById(id);
+        Stock stock = stockRepository.getStockByBookId(forDeletion.getBook().getId());
+        stock.setNumbers(stock.getNumbers() + 1);
+        stockRepository.save(stock);
+
+        borrowedBookRepository.deleteById(id);
     }
 }
