@@ -125,4 +125,11 @@ export class ReadersComponent implements OnInit {
       },
       error => console.log(error));
   }
+  hasBooks(id:number){
+    this.readerService.hasBooks(id).subscribe(
+      () => {
+        this.reloadData();
+      },
+      error => console.log(error));
+  }
 }

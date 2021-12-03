@@ -4,6 +4,7 @@ import com.librarymanagement.library.entities.Book;
 import com.librarymanagement.library.entities.Reader;
 import com.librarymanagement.library.entities.Response;
 import com.librarymanagement.library.entities.ResponseReader;
+import com.librarymanagement.library.repositories.BorrowedBookRepository;
 import com.librarymanagement.library.repositories.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Id;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +30,9 @@ public class ReaderController {
  
     @Autowired
     ReaderRepository readerRepository;
+
+    @Autowired
+    BorrowedBookRepository borrowedBookRepository;
 
     @GetMapping(value = "/readers")
     public List<Reader> getReaders(){return readerRepository.findAll();}
@@ -119,6 +124,14 @@ public class ReaderController {
          System.out.println(e);
          return Arrays.asList();
         }
+    }
+    @GetMapping(value = "/borrowedbooks")
+    public boolean hasBooks(Long reader_id){
+        Long numberofborrows= borrowedBookRepository.getReaderCountBooks(reader_id);
+        if(numberofborrows<1){
+            return false;
+        }
+        return true;
     }
 }
 

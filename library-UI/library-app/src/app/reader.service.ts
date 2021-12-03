@@ -75,4 +75,7 @@ export class ReaderService {
     debugger;
     return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
   }
+  hasBooks(id:number): Observable<any>{
+    return this.http.get(`${this.baseUrl}` + `/borrowedbooks`);
+  }
 }
