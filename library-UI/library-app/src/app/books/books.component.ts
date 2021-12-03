@@ -113,11 +113,13 @@ export class BooksComponent implements OnInit {
   }
 
   deleteBook(id: number){
-    this.bookService.deleteBookByID(id).subscribe(
-      () => {
-        this.reloadData();
-      },
-      error => console.log(error));
+    if(window.confirm('Сигурни ли сте, че искате да изтриете книгата?')) {
+      this.bookService.deleteBookByID(id).subscribe(
+        () => {
+          this.reloadData();
+        },
+        error => console.log(error));
+    }
   }
 
   goToNewBook(){

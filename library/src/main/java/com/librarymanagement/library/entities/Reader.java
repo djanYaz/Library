@@ -1,5 +1,7 @@
 package com.librarymanagement.library.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +14,7 @@ public class Reader {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "reader")
     Set<BorrowedBook> borrowedBooks;
 
