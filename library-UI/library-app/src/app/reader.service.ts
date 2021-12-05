@@ -21,7 +21,7 @@ export class ReaderService {
   }
 
   deleteReaderById(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}` + '/delete/' + `${id}`);
+    return this.http.delete(`${this.baseUrl}` + '/delete/' + `${id}`, {responseType: "text"});
   }
   getPageableReaders(pageNumber: number,
                    pageSize: number,
@@ -72,10 +72,10 @@ export class ReaderService {
     return this.http.post(`${this.baseUrl}` + `/newreader`,null, {params: params});
   }
   updateReader(id:number,value:any): Observable<Object> {
-    debugger;
     return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
   }
-  hasBooks(id:number): Observable<any>{
-    return this.http.get(`${this.baseUrl}` + `/borrowedbooks`);
+  howManyBooks(id:number): Observable<any>{
+    debugger;
+    return this.http.get(`${this.baseUrl}` + `/number/`+`${id}`);
   }
 }

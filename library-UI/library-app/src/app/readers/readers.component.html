@@ -33,12 +33,15 @@
               <td>{{reader.phone}}</td>
               <td>{{reader.email}}</td>
               <td>
-                <button (click)="deleteReader(reader.id)" class="btn btn-danger" *ngIf="this.hasBooks(reader.id)">Изтрий</button>
+                <button (click)="deleteReader(reader.id)" class="btn btn-danger">Изтрий</button>
                 <button type="button" class="btn btn-danger" (click)= gotoUpdateReader(reader.id)>Обнови</button>
               </td>
             </tr>
             </tbody>
           </table>
+          <div>
+            <p [(ngModel)]="deletemsg" >{{deletemsg}}</p>
+          </div>
           <ul class="pagination justify-content-center">
             <li class="page-item"><a (click)="previousClick()" class="page-link">Previous</a></li>
             <li *ngFor='let index of pageIndexes' class="page-item">

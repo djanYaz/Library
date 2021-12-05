@@ -3,6 +3,7 @@ import {ReaderService} from "../reader.service";
 import { Router } from '@angular/router';
 import {Reader} from "../reader";
 import {Message} from "@angular/compiler/src/i18n/i18n_ast";
+import {Observable} from "rxjs";
 
 const pageSize = 5;
 
@@ -14,34 +15,39 @@ const pageSize = 5;
 
 export class ReadersComponent implements OnInit {
 
+  hasBooks: boolean;
   readers: Array<Reader> = [];
-  id:number;
+  id: number;
   currentSelectedPage = 0;
   totalPages = 0;
   pageIndexes: Array<number> = [];
-  currentId:number;
+  currentId: number;
+  deletemsg: string;
 
   city = '';
   cities: Array<string> = [];
+
   constructor(private readerService: ReaderService, private router: Router) {
   }
+
   ngOnInit(): void {
     this.reloadData();
   }
-  reloadData(){
+
+  reloadData() {
     this.getPage(1, '');
     this.getCities();
     console.log('Проверка');
   }
 
-  sortNow(){
-    if (!this.city){
+  sortNow() {
+    if (!this.city) {
       return;
     }
     this.getPage(1, this.city);
   }
 
-  getPage(page: number, city: string){
+  getPage(page: number, city: string) {
     this.readerService.getPageableReaders(page, pageSize, city
     )
       .subscribe(
@@ -59,11 +65,11 @@ export class ReadersComponent implements OnInit {
   }
 
   getPaginationWithIndex(index: number) {
-    this.getPage(index+1, this.city);
+    this.getPage(index + 1, this.city);
   }
 
   getReadersPagesWithCityFiltering(optionValue: any) {
-    if (optionValue !== 'Всички'){
+    if (optionValue !== 'Всички') {
       this.city = optionValue;
     } else {
       this.city = '';
@@ -74,30 +80,31 @@ export class ReadersComponent implements OnInit {
 
 
   active(index: number) {
-    if (this.currentSelectedPage === index ){
+    if (this.currentSelectedPage === index) {
       return {
         active: true
       };
     } else {
-      return  {
+      return {
         active: false
       }
     }
   }
 
-  nextClick(){
-    if (this.currentSelectedPage < this.totalPages - 1){
+  nextClick() {
+    if (this.currentSelectedPage < this.totalPages - 1) {
       this.getPage(++this.currentSelectedPage + 1,
         this.city);
     }
   }
 
-  previousClick(){
-    if (this.currentSelectedPage > 0){
+  previousClick() {
+    if (this.currentSelectedPage > 0) {
       this.getPage(--this.currentSelectedPage + 1,
         this.city);
     }
   }
+
   getCities() {
     this.readerService.getListCities()
       .subscribe(
@@ -110,26 +117,31 @@ export class ReadersComponent implements OnInit {
         }
       );
   }
-  goToNewReader(){
+
+  goToNewReader() {
     this.router.navigate(['addreader']);
   }
 
-  gotoUpdateReader(id: number){
-    this.router.navigate(['updatereader',id]);
+  gotoUpdateReader(id: number) {
+    this.router.navigate(['updatereader', id]);
 
   }
-  deleteReader(id: number){
+
+  deleteReader(id: number) {
     this.readerService.deleteReaderById(id).subscribe(
-      () => {
+      (data) => {
         this.reloadData();
+        this.deletemsg = data;
       },
       error => console.log(error));
   }
-  hasBooks(id:number){
-    this.readerService.hasBooks(id).subscribe(
-      () => {
-        this.reloadData();
-      },
-      error => console.log(error));
+
+  checkButton(id: number) {
+    debugger;
+    this.readerService.howManyBooks(id)
+      .subscribe(data => {
+        this.hasBooks = data;
+      });
   }
 }
+
