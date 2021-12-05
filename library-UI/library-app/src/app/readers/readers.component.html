@@ -39,6 +39,9 @@
             </tr>
             </tbody>
           </table>
+          <div>
+            <p [(ngModel)]="deletemsg" >{{deletemsg}}</p>
+          </div>
           <ul class="pagination justify-content-center">
             <li class="page-item"><a (click)="previousClick()" class="page-link">Previous</a></li>
             <li *ngFor='let index of pageIndexes' class="page-item">

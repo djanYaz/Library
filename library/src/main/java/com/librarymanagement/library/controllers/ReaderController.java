@@ -1,9 +1,8 @@
 package com.librarymanagement.library.controllers;
 
-import com.librarymanagement.library.entities.Book;
-import com.librarymanagement.library.entities.Reader;
-import com.librarymanagement.library.entities.Response;
-import com.librarymanagement.library.entities.ResponseReader;
+import com.librarymanagement.library.entities.*;
+import com.librarymanagement.library.repositories.BorrowedBookRepository;
+import com.librarymanagement.library.repositories.OutOfStockRepository;
 import com.librarymanagement.library.repositories.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Id;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +29,12 @@ public class ReaderController {
     @Autowired
     ReaderRepository readerRepository;
 
+    @Autowired
+    BorrowedBookRepository borrowedBookRepository;
+
+    @Autowired
+    OutOfStockRepository outOfStockRepository;
+
     @GetMapping(value = "/readers")
     public List<Reader> getReaders(){return readerRepository.findAll();}
 
@@ -36,17 +42,24 @@ public class ReaderController {
     public ResponseEntity<Reader> getReaderById(@PathVariable(value = "id") Long id)
             throws Exception {
         Reader reader = readerRepository.findById(id)
-                .orElseThrow(() -> new Exception("Employee not found for this id :: " + id));
+                .orElseThrow(() -> new Exception("Ненамерен читател със следното ID :: " + id));
         return ResponseEntity.ok().body(reader);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteReader(@PathVariable Long id){
-
+        Long numberofBorrows=borrowedBookRepository.getReaderCountBooks(id);
+        if(numberofBorrows > 0) {
+            return ResponseEntity.ok("Записът не може да бъде изтрит. Читателят има книги за връщане!");
+        }
         if(!readerRepository.existsById(id)){
-            return ResponseEntity.ok("No such Reader!");
+            return ResponseEntity.ok("Няма такъв читател!");
+        }
+        List<OutOfStock> allOutOfStocks = outOfStockRepository.getAll(id);
+        if(!allOutOfStocks.isEmpty()) {
+          outOfStockRepository.deleteAll(allOutOfStocks);
         }
         readerRepository.deleteById(id);
-        return ResponseEntity.ok("Deleted successfully!");
+        return ResponseEntity.ok("Успешно изтрит!");
 
     }
 
@@ -111,14 +124,48 @@ public class ReaderController {
     }
 
     @GetMapping(value = "/cities")
-    public List<String> getCities(){
+    public List<String> getCities() {
         try {
             return readerRepository.findDistinctCity();
-        }
-        catch(Exception e) {
-         System.out.println(e);
-         return Arrays.asList();
+        } catch (Exception e) {
+            System.out.println(e);
+            return Arrays.asList();
         }
     }
-}
+//
+//    @GetMapping(value="/number")
+//    public boolean howMany(Long reader_id)
+//    {
+//        Long numberofBorrows=borrowedBookRepository.getReaderCountBooks(reader_id);
+//        if(numberofBorrows==0)
+//        {
+//            return true;
+//        }
+//        return false;
+//     //  return numberofBorrows;
+//    }
+
+
+    @GetMapping(value="/number/{id}")
+    public boolean howMany(@PathVariable(value = "id") Long reader_id)
+    {
+        Long numberofBorrows=borrowedBookRepository.getReaderCountBooks(reader_id);
+        if(numberofBorrows==0)
+        {
+            return true;
+        }
+        return false;
+        //  return numberofBorrows;
+    }
+
+        @GetMapping(value = "/borrowedbooks")
+        public boolean hasBooks(Long reader_id){
+            Long numberofborrows= borrowedBookRepository.getReaderCountBooks(reader_id);
+            if(numberofborrows==0){
+                return true;
+            }
+            return false;
+        }
+    }
+
 

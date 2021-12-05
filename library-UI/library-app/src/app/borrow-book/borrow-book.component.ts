@@ -108,5 +108,8 @@ export class BorrowBookComponent implements OnInit {
       });
     }
   }
+  goToNewReader() {
+    this.router.navigate(['addreader']);
+  }
 
 }
