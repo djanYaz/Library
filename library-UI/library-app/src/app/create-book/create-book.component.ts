@@ -28,7 +28,6 @@ export class CreateBookComponent implements OnInit {
 
 
   save() {
-    debugger;
     this.bookService.createBook(this.title, this.author, this.year, this.selectedGenre)
       .subscribe(data => console.log(data), error => console.log(error));
   }
@@ -54,6 +53,7 @@ export class CreateBookComponent implements OnInit {
         }
       );
   }
+
   onChange(event: any){
     this.selectedGenre = event;
   }

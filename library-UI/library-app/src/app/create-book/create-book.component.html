@@ -28,7 +28,7 @@
           <div class="row top10">
             <label for="genre">Жанр</label>
             <div class="col-sm-12">
-              <select data-live-search="true" (change)="onChange($any($event.target).value)" class="form-select" id="genre" required>
+              <select data-live-search="true" [(ngModel)]="selectedGenre" (change)="onChange($any($event.target).value)" class="form-select" id="genre" required>
                 <option [value]="genre.genreType" *ngFor="let genre of genres">{{genre.genreType}}</option>
               </select>
             </div>
