@@ -49,6 +49,16 @@ public class BookController {
         return ResponseEntity.ok(updatedStock);
     }
 
+    @PutMapping(value = "/addOne/{id}")
+    public ResponseEntity<Stock> AddOneBook(@PathVariable(value = "id") Long book_id){
+        Stock stock = stockRepository.getStockByBookId(book_id);
+        Integer stockNum = stock.getNumbers();
+        stock.setNumbers(stockNum + 1);
+        Stock updatedStock = stockRepository.save(stock);
+
+        return ResponseEntity.ok(updatedStock);
+    }
+
     @PostMapping("/newbook")
     public Book createBook(@RequestParam(required = false, name = "title") String title,
                            @RequestParam(required = false, name = "author") String author,

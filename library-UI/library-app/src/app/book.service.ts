@@ -44,6 +44,10 @@ export class BookService {
     return this.http.put(`${this.baseUrl}` + '/decrease/' + `${id}`, { responseType: Stock });
   }
 
+  AddOneBookById(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}` + '/addOne/' + `${id}`, { responseType: Stock });
+  }
+
   createBook(title: string, author: string, year: number, genre: string): Observable<Object> {
     const params = new HttpParams()
       .set('title', title)

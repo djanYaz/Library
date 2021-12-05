@@ -126,4 +126,12 @@ export class BooksComponent implements OnInit {
     this.router.navigate(['add']);
   }
 
+  AddOneBook(id: number){
+    this.bookService.AddOneBookById(id).subscribe(
+      () => {
+        this.reloadData();
+      },
+      error => console.log(error));
+  }
+
 }
