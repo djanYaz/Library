@@ -2,8 +2,8 @@ package com.librarymanagement.library.controllers;
 
 import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.*;
+import com.librarymanagement.library.services.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -29,7 +29,8 @@ public class BorrowedBookController {
 
     @Autowired
     OutOfStockRepository outOfStockRepository;
-
+    @Autowired
+    EmailService emailService;
     @GetMapping("all")
     public List<BorrowedBook> getAllBorrows(){
         return borrowedBookRepository.getOrderedBorrowedBooks();
@@ -53,6 +54,7 @@ public class BorrowedBookController {
             Stock stock = book.getStock();
             stock.setNumbers(stock.getNumbers()-1);
             stockRepository.save(stock);
+            emailService.InformUserOfBorrowingSuccess(reader.getEmail(),book.getTitle(),borrowedBook.getReturnDate());
             return "Успешна заявка!";
         } else if(bookStock == 0) {
             OutOfStock outOfStock = new OutOfStock(book, reader, today);
