@@ -10,7 +10,7 @@ import java.util.Date;
 public class OutOfStock {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     public OutOfStock() {
     }
@@ -24,13 +24,13 @@ public class OutOfStock {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
-    Book book;
+    public Book book;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "reader_id")
-    Reader reader;
+    public Reader reader;
 
     @Column(name="date_created")
-    private Date dateCreated;
+    public Date dateCreated;
 }

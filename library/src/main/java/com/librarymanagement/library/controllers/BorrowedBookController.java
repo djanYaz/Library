@@ -2,10 +2,11 @@ package com.librarymanagement.library.controllers;
 
 import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.*;
+import com.librarymanagement.library.services.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -29,7 +30,8 @@ public class BorrowedBookController {
 
     @Autowired
     OutOfStockRepository outOfStockRepository;
-
+    @Autowired
+    EmailService emailService;
     @GetMapping("all")
     public List<BorrowedBook> getAllBorrows(){
         return borrowedBookRepository.getOrderedBorrowedBooks();
@@ -53,6 +55,7 @@ public class BorrowedBookController {
             Stock stock = book.getStock();
             stock.setNumbers(stock.getNumbers()-1);
             stockRepository.save(stock);
+            emailService.InformUserOfBorrowingSuccess(reader.getEmail(),book.getTitle(),borrowedBook.getReturnDate());
             return "Успешна заявка!";
         } else if(bookStock == 0) {
             OutOfStock outOfStock = new OutOfStock(book, reader, today);
@@ -67,10 +70,21 @@ public class BorrowedBookController {
     @PutMapping(value = "/decrease/{id}")
     public void returnBook(@PathVariable(value = "id") Long id) throws Exception {
         BorrowedBook forDeletion = borrowedBookRepository.getById(id);
-        Stock stock = stockRepository.getStockByBookId(forDeletion.getBook().getId());
+        Long bookId= forDeletion.getBook().getId();
+        Stock stock = stockRepository.getStockByBookId(bookId);
         stock.setNumbers(stock.getNumbers() + 1);
         stockRepository.save(stock);
 
         borrowedBookRepository.deleteById(id);
+        try{
+            List<OutOfStock> borrowingAttempts=outOfStockRepository.getAllBorrowingAttemptsForSpecificBook(bookId);
+            for (OutOfStock outOfStock:borrowingAttempts) {
+                emailService.InformUserThatABookHeRequestedIsAvailable(outOfStock.reader.getEmail(), outOfStock.book.getTitle(),outOfStock.dateCreated);
+                outOfStockRepository.deleteById(outOfStock.id);
+            }
+        }catch(IOException ioException)
+        {
+            throw new Exception("Failed to notify readers!");
+        }
     }
 }
