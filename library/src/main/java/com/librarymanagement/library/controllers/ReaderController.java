@@ -54,7 +54,7 @@ public class ReaderController {
         if(!readerRepository.existsById(id)){
             return ResponseEntity.ok("Няма такъв читател!");
         }
-        List<OutOfStock> allOutOfStocks = outOfStockRepository.getAll(id);
+        List<OutOfStock> allOutOfStocks = outOfStockRepository.getAllBorrowingAttemptsAReaderHasMade(id);
         if(!allOutOfStocks.isEmpty()) {
           outOfStockRepository.deleteAll(allOutOfStocks);
         }

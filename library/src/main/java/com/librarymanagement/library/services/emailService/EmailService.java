@@ -24,7 +24,8 @@ public class EmailService {
         Email from = new Email("admin@sacredKnowledge.com");
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
-        Content content = new Content("text/plain", "Здравейте. Трябва да върнете книгата '"+bookName+"' до "+ deadLineDate);
+        Content content = new Content("text/plain", "Здравейте. Трябва да" +
+                " върнете книгата '"+bookName+"' до "+ deadLineDate);
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
@@ -33,7 +34,8 @@ public class EmailService {
         Email from = new Email("admin@sacredKnowledge.com");
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
-        Content content = new Content("text/plain", "Здравейте. Трябва да върнете книгата '"+bookName+"' до "+ deadLineDate);
+        Content content = new Content("text/plain", "Здравейте. Трябва " +
+                "да върнете книгата '"+bookName+"' до "+ deadLineDate);
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
@@ -42,16 +44,27 @@ public class EmailService {
         Email from = new Email("admin@sacredKnowledge.com");
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
-        Content content = new Content("text/plain", "Здравейте. Просрочихте връщането на книгата '"+bookName+"', като крайния срок беше: "+ deadLineDate+". Моля върнете книгата - " +
+        Content content = new Content("text/plain", "Здравейте. Просрочихте " +
+                "връщането на книгата '"+bookName+"', като крайния срок беше: "+ deadLineDate+". Моля върнете книгата - " +
                 "в противен случай ще последват административни наказания!");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
     public void InformUserOfBorrowingSuccess(String readerEmail, String bookName, Date deadLineDate) throws IOException{
         Email from = new Email("vaianakiev@tu-sofia.bg");
-        String subject = "Трябва да върнете книгата си скоро!";
+        String subject = "Наслаждавайте се на книгата си!";
         Email to = new Email(readerEmail);
-        Content content = new Content("text/plain", "Здравейте. Заехте книгата '"+bookName+"', като крайния срок за връщането й е : "+ deadLineDate+".");
+        Content content = new Content("text/plain", "Здравейте. Заехте книгата " +
+                "'"+bookName+"', като крайния срок за връщането й е : "+ deadLineDate+".");
+        Mail mail = new Mail(from, subject, to, content);
+        this.trySendEmail(mail);
+    }
+    public void InformUserThatABookHeRequestedIsAvailable(String readerEmail, String bookName, Date attemptToBorrowDate) throws IOException{
+        Email from = new Email("vaianakiev@tu-sofia.bg");
+        String subject = "Уведомление за вече-налична книга";
+        Email to = new Email(readerEmail);
+        Content content = new Content("text/plain", "Здравейте. Книгата '"+bookName+"', която поискахте да " +
+                "вземете на "+attemptToBorrowDate+" вече е налична.");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
