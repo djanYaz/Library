@@ -22,7 +22,7 @@ export class BorrowBookComponent implements OnInit {
   selectedReaderId: number;
   book: Book;
   reader: Reader;
-  msg: string;
+  msg: string= "";
   phone: number;
   email: string;
   author: string;
@@ -40,7 +40,6 @@ export class BorrowBookComponent implements OnInit {
     this.bookService.getBookList()
       .subscribe(
         (books: Array<Book>) => {
-          console.log(books);
           this.books = books;
         },
         (error: any) => {
@@ -53,7 +52,6 @@ export class BorrowBookComponent implements OnInit {
     this.readerService.getReaderList()
       .subscribe(
         (readers: Array<Reader>) => {
-          console.log(readers);
           this.readers = readers;
         },
         (error: any) => {

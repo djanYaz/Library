@@ -3,16 +3,12 @@ package com.librarymanagement.library.controllers;
 import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.*;
 import com.librarymanagement.library.services.emailService.EmailService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*" , maxAge = 3600)
@@ -35,6 +31,8 @@ public class BorrowedBookController {
     OutOfStockRepository outOfStockRepository;
     @Autowired
     EmailService emailService;
+    private TaskExecutionRepository taskExecutionRepository;
+
     @GetMapping("all")
     public List<BorrowedBook> getAllBorrows(){
         return borrowedBookRepository.getOrderedBorrowedBooks();
@@ -78,17 +76,10 @@ public class BorrowedBookController {
         Stock stock = stockRepository.getStockByBookId(bookId);
         stock.setNumbers(stock.getNumbers() + 1);
         stockRepository.save(stock);
-
+        var te =taskExecutionRepository.getBlockingTaskExecution(forDeletion.getBook().getId(),forDeletion.getReader().getId());
+        te.setEquivalentTaskBlocked(true);
+        taskExecutionRepository.save(te);
         borrowedBookRepository.deleteById(id);
-        try{
-            List<OutOfStock> borrowingAttempts=outOfStockRepository.getAllBorrowingAttemptsForSpecificBook(bookId);
-            for (OutOfStock outOfStock:borrowingAttempts) {
-                emailService.InformUserThatABookHeRequestedIsAvailable(outOfStock.reader.getEmail(), outOfStock.book.getTitle(),outOfStock.dateCreated);
-                outOfStockRepository.deleteById(outOfStock.id);
-            }
-        }catch(IOException ioException)
-        {
-            throw new Exception("Failed to notify readers!");
-        }
+        emailService.InformOfAvailabilityAllRequesters(bookId);
     }
 }

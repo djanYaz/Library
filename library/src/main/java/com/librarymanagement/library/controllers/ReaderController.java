@@ -65,7 +65,7 @@ public class ReaderController {
 
 
     @PostMapping("/newreader")
-    public  String  createReader(@RequestParam(required = false) String first_name,
+    public ResponseEntity<?>  createReader(@RequestParam(required = false) String first_name,
                                 @RequestParam(required = false) String last_name,
                                 @RequestParam(required = false) String city,
                                 @RequestParam(required = false) String phone,
@@ -82,9 +82,9 @@ public class ReaderController {
 
         if(id==null){
             newReader =readerRepository.save(newReader);
-            return "Няма такъв читател";
+            return ResponseEntity.ok(newReader);
         }else {
-            return "Читателят съществува";
+            return ResponseEntity.ok("Читателя вече съществува.");
         }
 
     }

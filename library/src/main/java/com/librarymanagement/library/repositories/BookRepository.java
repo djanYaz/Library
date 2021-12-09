@@ -13,17 +13,17 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Transactional
-    @Query(value = "SELECT b FROM Book b LEFT JOIN Stock s ON b.id = s.book.id WHERE b.stock.numbers > 0")
+    @Query(value = "SELECT b FROM Book b LEFT JOIN Stock s ON b.id = s.book.id")
     Page<Book> getBookView(Pageable requestedPage);
 
     @Query(value = "SELECT id FROM book WHERE title = :title AND author = :author AND year_published = :year_published", nativeQuery = true)
     Long getDuplicateBook(String title, String author, Integer year_published);
 
     @Transactional
-    @Query(value = "SELECT b FROM Book b WHERE b.genre.genreType= :genre AND b.stock.numbers > 0")
+    @Query(value = "SELECT b FROM Book b WHERE b.genre.genreType= :genre")
     Page<Book> findAllByGenre(String genre, Pageable requestedPage);
 
-    @Query("SELECT DISTINCT b.genre.genreType FROM Book b WHERE b.stock.numbers > 0")
+    @Query("SELECT DISTINCT b.genre.genreType FROM Book b")
     List<String> findDistinctGenreTypes();
 
     @Query("SELECT b.stock.numbers FROM Book b WHERE b.id = :book_id")

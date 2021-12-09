@@ -18,7 +18,7 @@ export class CreateBookComponent implements OnInit {
   year: number;
   selectedGenre: string;
   genreType: string;
-  msg: string = '';
+  msg: string = "";
 
   constructor(private genreService: GenreService, private bookService: BookService, private router: Router) { }
 
@@ -28,12 +28,11 @@ export class CreateBookComponent implements OnInit {
 
 
   save() {
-    this.bookService.createBook(this.title, this.author, this.year, this.selectedGenre)
-      .subscribe(data => console.log(data), error => console.log(error));
+    return this.bookService.createBook(this.title, this.author, this.year, this.selectedGenre);
   }
 
-  onSubmit() {
-    this.save();
+  async onSubmit() {
+    await this.save().toPromise();
     this.gotoList();
   }
 
@@ -45,7 +44,6 @@ export class CreateBookComponent implements OnInit {
     this.genreService.getListGenres()
       .subscribe(
         (genres: Array<Genre>) => {
-          console.log(genres);
           this.genres = genres;
         },
         (error: any) => {

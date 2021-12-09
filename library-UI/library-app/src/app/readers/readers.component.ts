@@ -22,7 +22,7 @@ export class ReadersComponent implements OnInit {
   totalPages = 0;
   pageIndexes: Array<number> = [];
   currentId: number;
-  deletemsg: string;
+  deletemsg: string="";
 
   city = '';
   cities: Array<string> = [];
@@ -37,7 +37,6 @@ export class ReadersComponent implements OnInit {
   reloadData() {
     this.getPage(1, '');
     this.getCities();
-    console.log('Проверка');
   }
 
   sortNow() {
@@ -52,7 +51,6 @@ export class ReadersComponent implements OnInit {
     )
       .subscribe(
         data => {
-          console.log(data);
           this.readers = data.readers;
           this.totalPages = data.totalPages;
           this.pageIndexes = Array(this.totalPages).fill(0).map((x, i) => i);

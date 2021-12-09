@@ -1,7 +1,5 @@
 package com.librarymanagement.library.entities;
 
-import com.librarymanagement.library.nonPersistedEntities.TaskExecutionType;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,19 +13,29 @@ public class TaskExecution {
     @Enumerated(EnumType.ORDINAL)
     private TaskExecutionType taskType;
 
-    @Column(name="data")
-    private String data;
+    @JoinColumn(name = "book_id")
+    Long book_id;
+
+    @JoinColumn(name = "reader_id")
+    Long reader_id;
+
+    public Boolean getEquivalentTaskBlocked() {
+        return equivalentTaskBlocked;
+    }
+
+    public void setEquivalentTaskBlocked(Boolean equivalentTaskBlocked) {
+        this.equivalentTaskBlocked = equivalentTaskBlocked;
+    }
 
     @Column(name="equivalent_task_blocked")
-    private Boolean equivalentTaskBlocked;
+    Boolean equivalentTaskBlocked;
 
     public TaskExecution() {
     }
 
-    public TaskExecution(Long id, TaskExecutionType taskType, String data, Boolean equivalentTaskBlocked) {
-        this.id = id;
+    public TaskExecution(TaskExecutionType taskType, Long book_id, Long reader_id) {
         this.taskType = taskType;
-        this.data = data;
-        this.equivalentTaskBlocked = equivalentTaskBlocked;
+        this.book_id = book_id;
+        this.reader_id = reader_id;
     }
 }

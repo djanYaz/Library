@@ -13,7 +13,7 @@ export class CreateReaderComponent implements OnInit {
   city:string;
   phone:number;
   email:string;
-  msg: string = '';
+  msg: string = "";
 
   constructor(private readerService: ReaderService, private router: Router) { }
 
@@ -21,11 +21,10 @@ export class CreateReaderComponent implements OnInit {
   }
 
   save() {
-    this.readerService.createReader(this.first_name, this.last_name, this.city, this.phone,this.email)
-      .subscribe(data => console.log(data), error => console.log(error));
+    return this.readerService.createReader(this.first_name, this.last_name, this.city, this.phone,this.email)
   }
-  onSubmit() {
-    this.save();
+  async onSubmit() {
+    await this.save().toPromise();
     this.gotoList();
   }
 
