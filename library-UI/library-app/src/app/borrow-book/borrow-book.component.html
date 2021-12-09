@@ -47,10 +47,11 @@
             </div>
             <div class="row top10">
               <div class="col-md-3">
-                <label for="in30days">Дата на връщане: </label>
+                <label for="returnDate">Дата на връщане: </label>
               </div>
               <div class="col-md-5">
-                <input type="text" class="form-control" id="in30days" [ngModel]="in30days" name="in30days" readonly>
+                <input type="datetime-local" class="form-control" id="returnDate" name="returnDate" step="1" [ngModel]="returnDate | date:'yyyy-MM-ddTHH:mm:ss'"
+                (ngModelChange)="returnDate = $event" required>
               </div>
             </div>
               <p [(ngModel)]="msg" style="color: red">{{msg}}</p>

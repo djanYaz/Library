@@ -38,8 +38,10 @@ public class BorrowedBookController {
     }
 
     @PostMapping("givebook")
-    public String GiveBook(@RequestParam(required = false, name = "reader_id") Long reader_id,
-                           @RequestParam(required = false, name = "book_id") Long book_id) throws Exception {
+    public String GiveBook(@RequestParam(required = true, name = "reader_id") Long reader_id,
+                           @RequestParam(required = true, name = "book_id") Long book_id,
+                           @RequestParam(required = true, name="return_date") String return_date
+                           ) throws Exception {
         Date today = new Date();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = LocalDate.now().plusDays(30);
