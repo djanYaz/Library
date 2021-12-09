@@ -3,6 +3,7 @@ package com.librarymanagement.library.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -15,7 +16,7 @@ public class OutOfStock {
     public OutOfStock() {
     }
 
-    public OutOfStock(Book book, Reader reader, Date dateCreated) {
+    public OutOfStock(Book book, Reader reader, Instant dateCreated) {
         this.book = book;
         this.reader = reader;
         this.dateCreated = dateCreated;
@@ -32,5 +33,5 @@ public class OutOfStock {
     public Reader reader;
 
     @Column(name="date_created")
-    public Date dateCreated;
+    public Instant dateCreated;
 }

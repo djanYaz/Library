@@ -15,14 +15,14 @@ import {BorrowBookService} from "../borrow-book.service";
 })
 export class BorrowBookComponent implements OnInit {
   today = new Date().toLocaleString();
-  in30days = new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString();
+  public returnDate= new Date();
   books: Array<Book> = [];
   readers: Array<Reader> = [];
   selectedBookId: number;
   selectedReaderId: number;
   book: Book;
   reader: Reader;
-  msg: string;
+  msg: string= "";
   phone: number;
   email: string;
   author: string;
@@ -40,7 +40,6 @@ export class BorrowBookComponent implements OnInit {
     this.bookService.getBookList()
       .subscribe(
         (books: Array<Book>) => {
-          console.log(books);
           this.books = books;
         },
         (error: any) => {
@@ -53,7 +52,6 @@ export class BorrowBookComponent implements OnInit {
     this.readerService.getReaderList()
       .subscribe(
         (readers: Array<Reader>) => {
-          console.log(readers);
           this.readers = readers;
         },
         (error: any) => {
@@ -73,14 +71,13 @@ export class BorrowBookComponent implements OnInit {
     this.author = this.book.author;
     this.year = this.book.yearPublished;
   }
-
   onSubmit() {
     this.borrowBook();
   }
 
   borrowBook() {
     debugger;
-    this.borrowBookService.borrowBook(this.selectedReaderId, this.selectedBookId)
+    this.borrowBookService.borrowBook(this.selectedReaderId, this.selectedBookId,this.returnDate)
       .subscribe(
         data => {
           this.msg = data;

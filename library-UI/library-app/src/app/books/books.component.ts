@@ -35,7 +35,6 @@ export class BooksComponent implements OnInit {
   reloadData(){
     this.getPage(1, '', true);
     this.getGenres();
-    console.log('Някакъв текст');
   }
 
   sortNow(){
@@ -47,7 +46,6 @@ export class BooksComponent implements OnInit {
       asc)
       .subscribe(
         data => {
-          console.log(data);
           this.books = data.books;
           this.totalPages = data.totalPages;
           this.pageIndexes = Array(this.totalPages).fill(0).map((x, i) => i);
@@ -112,8 +110,8 @@ export class BooksComponent implements OnInit {
     }
   }
 
-  deleteBook(id: number){
-    if(window.confirm('Сигурни ли сте, че искате да изтриете книгата?')) {
+  deleteBook(id: number,currentNumbers:number){
+    if(currentNumbers&&window.confirm('Сигурни ли сте, че искате да изтриете книгата?')) {
       this.bookService.deleteBookByID(id).subscribe(
         () => {
           this.reloadData();

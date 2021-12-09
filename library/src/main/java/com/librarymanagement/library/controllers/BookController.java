@@ -5,6 +5,7 @@ import com.librarymanagement.library.repositories.BookRepository;
 import com.librarymanagement.library.repositories.GenreRepository;
 import com.librarymanagement.library.repositories.InspectionRepository;
 import com.librarymanagement.library.repositories.StockRepository;
+import com.librarymanagement.library.services.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,8 @@ public class BookController {
 
     @Autowired
     GenreRepository genreRepository;
+    @Autowired
+    EmailService emailService;
 
     @GetMapping(value="/books")
     public List<Book> getBooks(){
@@ -50,12 +53,12 @@ public class BookController {
     }
 
     @PutMapping(value = "/addOne/{id}")
-    public ResponseEntity<Stock> AddOneBook(@PathVariable(value = "id") Long book_id){
+    public ResponseEntity<Stock> AddOneBook(@PathVariable(value = "id") Long book_id) throws Exception {
         Stock stock = stockRepository.getStockByBookId(book_id);
         Integer stockNum = stock.getNumbers();
         stock.setNumbers(stockNum + 1);
         Stock updatedStock = stockRepository.save(stock);
-
+        emailService.InformOfAvailabilityAllRequesters(book_id);
         return ResponseEntity.ok(updatedStock);
     }
 

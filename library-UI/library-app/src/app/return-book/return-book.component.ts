@@ -17,11 +17,15 @@ export class ReturnBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBorrowedBooks();
+    setTimeout(() => {
+      console.log(this.borrowBooks);
+    }, 1000);
   }
 
   getAllBorrowedBooks() {
     this.borrowBookService.getBorrowBookList().subscribe(
       (borrows: Array<BorrowedBook>) => {
+        borrows.forEach(a=>{a.borrowDate=new Date(a.borrowDate).toLocaleString();a.returnDate=new Date(a.returnDate).toLocaleString();})
         this.borrowBooks = borrows;
       },
       (error: any) => {
@@ -42,7 +46,7 @@ export class ReturnBookComponent implements OnInit {
   }
 
 
-  getColor(returnDate: Date) {
+  getColor(returnDate: string) {
     let today: Date = new Date();
     let rd: Date = new Date(returnDate);
     let timeInMilisec: number = rd. getTime() - today. getTime();

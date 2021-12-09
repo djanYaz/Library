@@ -28,8 +28,8 @@
           <div class="row top10">
             <label for="genre">Жанр</label>
             <div class="col-sm-12">
-              <select data-live-search="true" [(ngModel)]="selectedGenre" (change)="onChange($any($event.target).value)" class="form-select" id="genre" required>
-                <option [value]="genre.genreType" *ngFor="let genre of genres">{{genre.genreType}}</option>
+              <select data-live-search="true" name="selectedGenre" [(ngModel)]="selectedGenre" (change)="onChange($any($event.target).value)" class="form-select" id="genre" required>
+                <option name="genreType" [value]="genre.genreType" *ngFor="let genre of genres">{{genre.genreType}}</option>
               </select>
             </div>
           </div>
@@ -48,7 +48,7 @@
             <div class="col-sm-12">
               <input class="form-control" type="text" id="genreType" required [(ngModel)]="genreType" name="genreType">
             </div>
-            <p [(ngModel)]="msg" style="color: red">{{msg}}</p>
+            <p name="msg" style="color: red">{{msg}}</p>
           </div>
           <button type="submit" [disabled]="!genreForm.form.valid" class="btn btn-primary">Запази</button>
         </form>
