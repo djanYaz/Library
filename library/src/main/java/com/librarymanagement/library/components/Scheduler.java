@@ -38,14 +38,32 @@ public class Scheduler {
     }
     @Scheduled(fixedRate = 10000)
     public void checkForExtremelyOverdueBooks() throws IOException {
-        var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().plusSeconds(3600*24*20));
+        var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().minusSeconds(3600*24*20));
         handleMany(found,TaskExecutionType.WarnOfAdministrativeSanction);
     }
     private void handle(BorrowedBook borrowedBook,TaskExecutionType taskExecutionType) throws IOException {
         var active = taskExecutionRepository.getBlockingTaskExecution(borrowedBook.getBook().getId(), borrowedBook.getReader().getId());
         if(active==null){
-            taskExecutionRepository.save(new TaskExecution(TaskExecutionType.WarnOfApproachingDeadline,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
-            emailService.WarnOfApproachingDeadline(borrowedBook.getBook().getTitle(),borrowedBook.getReader().getEmail(),borrowedBook.getReturnDate());
+            taskExecutionRepository.save(new TaskExecution(taskExecutionType,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
+            executeWarning(taskExecutionType,borrowedBook);
+        }else if(active!=null&&active.getTaskType().ordinal()<taskExecutionType.ordinal()){
+            active.setEquivalentTaskBlocked(false);
+            taskExecutionRepository.save(new TaskExecution(taskExecutionType,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
+            taskExecutionRepository.save(active);
+            executeWarning(taskExecutionType,borrowedBook);
+        }
+    }
+    private void executeWarning(TaskExecutionType taskExecutionType,BorrowedBook borrowedBook) throws IOException{
+        switch(taskExecutionType){
+            case WarnOfApproachingDeadline:
+                emailService.WarnOfApproachingDeadline(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                break;
+            case WarnOfAdministrativeSanction:
+                emailService.WarnOfAdministrativeSanction(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                break;
+            case WarnOfOverdueBook:
+                emailService.WarnOfOverdueBook(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                break;
         }
     }
     private void handleMany(List<BorrowedBook> borrowedBooks, TaskExecutionType taskExecutionType) throws IOException{

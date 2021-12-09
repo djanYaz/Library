@@ -11,4 +11,6 @@ public interface TaskExecutionRepository extends JpaRepository<TaskExecution,Lon
     TaskExecution getTaskExecution(Long id);
     @Query("SELECT te FROM TaskExecution te WHERE te.book_id= :book_id AND te.reader_id=:reader_id AND te.equivalentTaskBlocked=true")
     TaskExecution getBlockingTaskExecution(Long book_id, Long reader_id);
+    @Query("SELECT te FROM TaskExecution te WHERE te.taskType=:taskExecutionType AND te.book_id= :book_id AND te.reader_id=:reader_id AND te.equivalentTaskBlocked=true")
+    TaskExecution getBlockingTaskExecution(Long book_id, Long reader_id,TaskExecutionType taskExecutionType);
 }

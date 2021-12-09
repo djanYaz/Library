@@ -24,6 +24,7 @@ import java.util.List;
 public class EmailService {
     private final SendGrid sendGrid;
     private final DateTimeFormatter dateTimeFormatter;
+    private String sendingEmail="vaianakiev@tu-sofia.bg";
     @Autowired
     BookRepository bookRepository;
     @Autowired
@@ -35,8 +36,8 @@ public class EmailService {
     }
 
     public void WarnOfApproachingDeadline(String readerEmail, String bookName, Instant deadLineDate) throws IOException {
-        Email from = new Email("admin@sacredKnowledge.com");
-        String subject = "Трябва да върнете книгата си скоро!";
+        Email from = new Email(sendingEmail);
+        String subject = "Крайният срок за връщането на книгата ви наближава!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Трябва да" +
                 " върнете книгата '"+bookName+"' до "+ formatInstant(deadLineDate));
@@ -45,8 +46,8 @@ public class EmailService {
     }
 
     public void WarnOfOverdueBook(String readerEmail, String bookName, Instant deadLineDate) throws IOException{
-        Email from = new Email("admin@sacredKnowledge.com");
-        String subject = "Трябва да върнете книгата си скоро!";
+        Email from = new Email(sendingEmail);
+        String subject = "Трябва да върнете книгата си!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Трябва " +
                 "да върнете книгата '"+bookName+"' до "+ formatInstant(deadLineDate));
@@ -55,8 +56,8 @@ public class EmailService {
     }
 
     public void WarnOfAdministrativeSanction(String readerEmail, String bookName, Instant deadLineDate) throws IOException {
-        Email from = new Email("admin@sacredKnowledge.com");
-        String subject = "Трябва да върнете книгата си скоро!";
+        Email from = new Email(sendingEmail);
+        String subject = "Трябва да върнете книгата си!!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Просрочихте " +
                 "връщането на книгата '"+bookName+"', като крайният срок беше: "+ formatInstant(deadLineDate)+". Моля върнете книгата - " +
@@ -65,7 +66,7 @@ public class EmailService {
         this.trySendEmail(mail);
     }
     public void InformUserOfBorrowingSuccess(String readerEmail, String bookName, Instant deadLineDate) throws IOException{
-        Email from = new Email("vaianakiev@tu-sofia.bg");
+        Email from = new Email(sendingEmail);
         String subject = "Наслаждавайте се на книгата си!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Заехте книгата " +
@@ -74,7 +75,7 @@ public class EmailService {
         this.trySendEmail(mail);
     }
     public void InformUserThatABookHeRequestedIsAvailable(String readerEmail, String bookName, Instant attemptToBorrowDate) throws IOException{
-        Email from = new Email("vaianakiev@tu-sofia.bg");
+        Email from = new Email(sendingEmail);
         String subject = "Уведомление за вече-налична книга";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Книгата '"+bookName+"', която поискахте да " +
@@ -107,6 +108,6 @@ public class EmailService {
         }
     }
     private String formatInstant(Instant instant){
-        return dateTimeFormatter.format(instant);
+        return dateTimeFormatter.format(instant)+" GMT";
     }
 }

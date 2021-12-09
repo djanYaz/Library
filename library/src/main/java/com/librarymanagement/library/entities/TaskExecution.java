@@ -9,6 +9,14 @@ public class TaskExecution {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
+    public TaskExecutionType getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(TaskExecutionType taskType) {
+        this.taskType = taskType;
+    }
+
     @Column(name="task_type")
     @Enumerated(EnumType.ORDINAL)
     private TaskExecutionType taskType;
@@ -37,5 +45,6 @@ public class TaskExecution {
         this.taskType = taskType;
         this.book_id = book_id;
         this.reader_id = reader_id;
+        this.equivalentTaskBlocked=true;
     }
 }
