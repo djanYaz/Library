@@ -59,7 +59,7 @@ public class EmailService {
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Просрочихте " +
-                "връщането на книгата '"+bookName+"', като крайния срок беше: "+ formatInstant(deadLineDate)+". Моля върнете книгата - " +
+                "връщането на книгата '"+bookName+"', като крайният срок беше: "+ formatInstant(deadLineDate)+". Моля върнете книгата - " +
                 "в противен случай ще последват административни наказания!");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
@@ -69,7 +69,7 @@ public class EmailService {
         String subject = "Наслаждавайте се на книгата си!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Заехте книгата " +
-                "'"+bookName+"', като крайния срок за връщането й е : "+ formatInstant(deadLineDate)+".");
+                "'"+bookName+"', като крайният срок за връщането й е : "+ formatInstant(deadLineDate)+".");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }

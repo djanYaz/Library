@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 
 @Component
 public class Scheduler {
@@ -25,41 +26,35 @@ public class Scheduler {
     @Autowired
     EmailService emailService;
     @Scheduled(fixedRate = 10000)
-    public void checkForNearlyOverdueBorrowedBooks(){
-        var nearlyOverdueBorrowedBooks=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().minusSeconds(3600*24));
-        bookRepository.findDistinctGenreTypes().forEach(System.out::println);
+    public void checkForNearlyOverdueBorrowedBooks() throws IOException {
+        var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().plusSeconds(3600*24*20));
+        handleMany(found,TaskExecutionType.WarnOfApproachingDeadline);
+
     }
     @Scheduled(fixedRate = 10000)
-    public void checkForOverdueBorrowedBooks(){
-        var nearlyOverdueBorrowedBooks=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now());
-        bookRepository.findDistinctGenreTypes().forEach(System.out::println);
+    public void checkForOverdueBorrowedBooks() throws IOException {
+        var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now());
+        handleMany(found,TaskExecutionType.WarnOfOverdueBook);
     }
     @Scheduled(fixedRate = 10000)
-    public void checkForExtremelyOverdueBooks(){
-        var nearlyOverdueBorrowedBooks=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().plusSeconds(3600*24*20));
-        bookRepository.findDistinctGenreTypes().forEach(System.out::println);
+    public void checkForExtremelyOverdueBooks() throws IOException {
+        var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().plusSeconds(3600*24*20));
+        handleMany(found,TaskExecutionType.WarnOfAdministrativeSanction);
     }
-    private void nearlyOverdueHandling(BorrowedBook borrowedBook) throws IOException {
+    private void handle(BorrowedBook borrowedBook,TaskExecutionType taskExecutionType) throws IOException {
         var active = taskExecutionRepository.getBlockingTaskExecution(borrowedBook.getBook().getId(), borrowedBook.getReader().getId());
         if(active==null){
             taskExecutionRepository.save(new TaskExecution(TaskExecutionType.WarnOfApproachingDeadline,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
             emailService.WarnOfApproachingDeadline(borrowedBook.getBook().getTitle(),borrowedBook.getReader().getEmail(),borrowedBook.getReturnDate());
         }
     }
-
-    private void overdueHandling(BorrowedBook borrowedBook) throws IOException {
-        var active = taskExecutionRepository.getBlockingTaskExecution(borrowedBook.getBook().getId(), borrowedBook.getReader().getId());
-        if(active==null){
-            taskExecutionRepository.save(new TaskExecution(TaskExecutionType.WarnOfOverdueBook,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
-            emailService.WarnOfOverdueBook(borrowedBook.getBook().getTitle(),borrowedBook.getReader().getEmail(),borrowedBook.getReturnDate());
-        }
-    }
-
-    private void extremelyOverdueHandling(BorrowedBook borrowedBook) throws IOException {
-        var active = taskExecutionRepository.getBlockingTaskExecution(borrowedBook.getBook().getId(), borrowedBook.getReader().getId());
-        if(active==null){
-            taskExecutionRepository.save(new TaskExecution(TaskExecutionType.WarnOfAdministrativeSanction,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
-            emailService.WarnOfAdministrativeSanction(borrowedBook.getBook().getTitle(),borrowedBook.getReader().getEmail(),borrowedBook.getReturnDate());
-        }
+    private void handleMany(List<BorrowedBook> borrowedBooks, TaskExecutionType taskExecutionType) throws IOException{
+        borrowedBooks.forEach(a-> {
+            try {
+                handle(a,taskExecutionType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
