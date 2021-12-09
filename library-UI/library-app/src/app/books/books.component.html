@@ -53,7 +53,7 @@
               <td>{{book.genre.genreType}}</td>
               <td>{{book.stock.numbers}}</td>
               <td>
-                <button (click)="deleteBook(book.id)" class="btn btn-danger">-1 брой</button>
+                <button (click)="deleteBook(book.id,book.stock.numbers)" class="btn btn-danger">-1 брой</button>
                 <button (click)="AddOneBook(book.id)" class="btn btn-danger">+1 брой</button>
               </td>
             </tr>
