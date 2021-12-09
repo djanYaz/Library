@@ -31,7 +31,8 @@ public class BorrowedBookController {
     OutOfStockRepository outOfStockRepository;
     @Autowired
     EmailService emailService;
-    private TaskExecutionRepository taskExecutionRepository;
+    @Autowired
+    TaskExecutionRepository taskExecutionRepository;
 
     @GetMapping("all")
     public List<BorrowedBook> getAllBorrows(){
