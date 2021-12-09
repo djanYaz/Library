@@ -5,6 +5,6 @@ export class BorrowedBook {
   id: number;
   book: Book;
   reader: Reader;
-  borrowDate: Date;
-  returnDate: Date;
+  borrowDate: string;
+  returnDate: string;
 }

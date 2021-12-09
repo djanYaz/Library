@@ -3,7 +3,7 @@ package com.librarymanagement.library.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
 @Table(name="borrowedbook")
@@ -15,7 +15,7 @@ public class BorrowedBook {
     public BorrowedBook() {
     }
 
-    public BorrowedBook(Book book, Reader reader, Date borrowDate, Date returnDate) {
+    public BorrowedBook(Book book, Reader reader, Instant borrowDate, Instant returnDate) {
         this.book = book;
         this.reader = reader;
         this.borrowDate = borrowDate;
@@ -31,10 +31,10 @@ public class BorrowedBook {
     Reader reader;
 
     @Column(name="borrow_date")
-    private Date borrowDate;
+    private Instant borrowDate;
 
     @Column(name="return_date")
-    private Date returnDate;
+    private Instant returnDate;
 
     public Book getBook() {
         return book;
@@ -52,19 +52,19 @@ public class BorrowedBook {
         this.reader = reader;
     }
 
-    public Date getBorrowDate() {
+    public Instant getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
+    public void setBorrowDate(Instant borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getReturnDate() {
+    public Instant getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(Instant returnDate) {
         this.returnDate = returnDate;
     }
 

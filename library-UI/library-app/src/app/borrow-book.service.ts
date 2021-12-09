@@ -20,7 +20,7 @@ export class BorrowBookService {
     const params = new HttpParams()
       .set('reader_id', reader_id)
       .set('book_id', book_id)
-      .set('return_date',return_date.toUTCString())
+      .set('return_date',return_date.toISOString())
     return this.http.post(`${this.baseUrl}` + `/givebook`,null, {params: params, responseType: "text"});
   }
 

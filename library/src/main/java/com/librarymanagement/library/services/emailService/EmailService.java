@@ -10,6 +10,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 
 @Service
@@ -30,7 +31,7 @@ public class EmailService {
         this.trySendEmail(mail);
     }
 
-    public void WarnOfOverdueBook(String readerEmail, String bookName, Date deadLineDate) throws IOException{
+    public void WarnOfOverdueBook(String readerEmail, String bookName, Instant deadLineDate) throws IOException{
         Email from = new Email("admin@sacredKnowledge.com");
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
@@ -40,7 +41,7 @@ public class EmailService {
         this.trySendEmail(mail);
     }
 
-    public void WarnOfAdministrativeSanction(String readerEmail, String bookName, Date deadLineDate) throws IOException {
+    public void WarnOfAdministrativeSanction(String readerEmail, String bookName, Instant deadLineDate) throws IOException {
         Email from = new Email("admin@sacredKnowledge.com");
         String subject = "Трябва да върнете книгата си скоро!";
         Email to = new Email(readerEmail);
@@ -50,7 +51,7 @@ public class EmailService {
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
-    public void InformUserOfBorrowingSuccess(String readerEmail, String bookName, Date deadLineDate) throws IOException{
+    public void InformUserOfBorrowingSuccess(String readerEmail, String bookName, Instant deadLineDate) throws IOException{
         Email from = new Email("vaianakiev@tu-sofia.bg");
         String subject = "Наслаждавайте се на книгата си!";
         Email to = new Email(readerEmail);
@@ -59,7 +60,7 @@ public class EmailService {
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
-    public void InformUserThatABookHeRequestedIsAvailable(String readerEmail, String bookName, Date attemptToBorrowDate) throws IOException{
+    public void InformUserThatABookHeRequestedIsAvailable(String readerEmail, String bookName, Instant attemptToBorrowDate) throws IOException{
         Email from = new Email("vaianakiev@tu-sofia.bg");
         String subject = "Уведомление за вече-налична книга";
         Email to = new Email(readerEmail);

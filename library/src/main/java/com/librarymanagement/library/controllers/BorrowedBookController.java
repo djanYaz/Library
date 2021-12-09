@@ -3,12 +3,15 @@ package com.librarymanagement.library.controllers;
 import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.*;
 import com.librarymanagement.library.services.emailService.EmailService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -42,10 +45,9 @@ public class BorrowedBookController {
                            @RequestParam(required = true, name = "book_id") Long book_id,
                            @RequestParam(required = true, name="return_date") String return_date
                            ) throws Exception {
-        Date today = new Date();
+        Instant today = Instant.now();
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        LocalDate localDate = LocalDate.now().plusDays(30);
-        Date returnDate = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        Instant returnDate = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(return_date));
         Reader reader = readerRepository.findById(reader_id).orElseThrow(() -> new Exception("Reader not found for this id :: " + reader_id));
         Book book = bookRepository.findById(book_id).orElseThrow(() -> new Exception("Book not found for this id :: " + book_id));
 
