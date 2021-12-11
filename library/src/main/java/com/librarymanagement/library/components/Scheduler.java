@@ -53,13 +53,13 @@ public class Scheduler {
     private void executeMessageSending(TaskExecutionType taskExecutionType, BorrowedBook borrowedBook) throws IOException{
         switch(taskExecutionType){
             case WarnOfApproachingDeadline:
-                emailService.WarnOfApproachingDeadline(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfApproachingDeadline(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
             case WarnOfAdministrativeSanction:
-                emailService.WarnOfAdministrativeSanction(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfAdministrativeSanction(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
             case WarnOfOverdueBook:
-                emailService.WarnOfOverdueBook(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfOverdueBook(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
         }
     }

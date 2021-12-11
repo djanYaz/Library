@@ -35,33 +35,39 @@ public class EmailService {
         dateTimeFormatter=DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.from(ZoneOffset.UTC));
     }
 
-    public void WarnOfApproachingDeadline(String readerEmail, String bookName, Instant deadLineDate) throws IOException {
+    public void WarnOfApproachingDeadline(String readerEmail, String bookName, Instant deadLineDate, Instant borrowDate) throws IOException {
         Email from = new Email(sendingEmail);
         String subject = "Крайният срок за връщането на книгата ви наближава!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Трябва да" +
-                " върнете книгата '"+bookName+"' до "+ formatInstant(deadLineDate));
+                " върнете книгата '"+bookName+"' до "+ formatInstant(deadLineDate)+". "
+                +"Вие заехте книгата на: "+formatInstant(borrowDate)+".");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
 
-    public void WarnOfOverdueBook(String readerEmail, String bookName, Instant deadLineDate) throws IOException{
+    public void WarnOfOverdueBook(String readerEmail, String bookName, Instant deadLineDate, Instant borrowDate) throws IOException{
         Email from = new Email(sendingEmail);
         String subject = "Трябва да върнете книгата си!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Просрочихте " +
-                "връщането на книгата '"+bookName+"', като крайният срок беше: "+ formatInstant(deadLineDate)+". Моля върнете" +
-                " книгата скоро.");
+                "връщането на книгата '"+bookName+"'. Вие заехте книгата на: "+formatInstant(borrowDate)+". " +
+                "Крайният срок за връщането й беше:" +
+                " "+ formatInstant(deadLineDate)+". Моля върнете " +
+                "книгата си!");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
 
-    public void WarnOfAdministrativeSanction(String readerEmail, String bookName, Instant deadLineDate) throws IOException {
+    public void WarnOfAdministrativeSanction(String readerEmail, String bookName, Instant deadLineDate, Instant borrowDate) throws IOException {
         Email from = new Email(sendingEmail);
         String subject = "Трябва да върнете книгата си!!";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Просрочихте " +
-                "връщането на книгата '"+bookName+"', като крайният срок беше: "+ formatInstant(deadLineDate)+". Моля върнете книгата - " +
+                "връщането на книгата '"+bookName+"'. Вие заехте книгата на: "+formatInstant(borrowDate)+". " +
+                "Крайният срок за връщането й беше:" +
+                " "+ formatInstant(deadLineDate)+". Моля върнете " +
+                "книгата си - " +
                 "в противен случай ще последват административни наказания!");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
