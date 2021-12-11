@@ -76,6 +76,7 @@ export class BorrowBookComponent implements OnInit {
   }
 
   borrowBook() {
+    this.msg="";
     this.borrowBookService.borrowBook(this.selectedReaderId, this.selectedBookId,this.returnDate)
       .subscribe(
         data => {
