@@ -4,6 +4,7 @@ import com.librarymanagement.library.entities.*;
 import com.librarymanagement.library.repositories.BorrowedBookRepository;
 import com.librarymanagement.library.repositories.OutOfStockRepository;
 import com.librarymanagement.library.repositories.ReaderRepository;
+import com.librarymanagement.library.repositories.TaskExecutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,8 @@ public class ReaderController {
 
     @Autowired
     OutOfStockRepository outOfStockRepository;
+    @Autowired
+    TaskExecutionRepository taskExecutionRepository;
 
     @GetMapping(value = "/readers")
     public List<Reader> getReaders(){return readerRepository.findAll();}
@@ -46,19 +49,19 @@ public class ReaderController {
         return ResponseEntity.ok().body(reader);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteReader(@PathVariable Long id){
-        Long numberofBorrows=borrowedBookRepository.getReaderCountBooks(id);
+    public ResponseEntity<?> deleteReader(@PathVariable (value = "id") Long readerId){
+        Long numberofBorrows=borrowedBookRepository.getReaderCountBooks(readerId);
         if(numberofBorrows > 0) {
             return ResponseEntity.ok("Записът не може да бъде изтрит. Читателят има книги за връщане!");
         }
-        if(!readerRepository.existsById(id)){
+        if(!readerRepository.existsById(readerId)){
             return ResponseEntity.ok("Няма такъв читател!");
         }
-        List<OutOfStock> allOutOfStocks = outOfStockRepository.getAllBorrowingAttemptsAReaderHasMade(id);
+        List<OutOfStock> allOutOfStocks = outOfStockRepository.getAllBorrowingAttemptsAReaderHasMade(readerId);
         if(!allOutOfStocks.isEmpty()) {
           outOfStockRepository.deleteAll(allOutOfStocks);
         }
-        readerRepository.deleteById(id);
+        readerRepository.deleteById(readerId);
         return ResponseEntity.ok("Успешно изтрит!");
 
     }

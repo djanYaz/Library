@@ -21,30 +21,15 @@ public class TaskExecution {
     @Enumerated(EnumType.ORDINAL)
     private TaskExecutionType taskType;
 
-    @JoinColumn(name = "book_id")
-    Long book_id;
+    @Column(name = "borrowedbook_id")
+    Long borrowedBookId;
 
-    @JoinColumn(name = "reader_id")
-    Long reader_id;
-
-    public Boolean getEquivalentTaskBlocked() {
-        return equivalentTaskBlocked;
-    }
-
-    public void setEquivalentTaskBlocked(Boolean equivalentTaskBlocked) {
-        this.equivalentTaskBlocked = equivalentTaskBlocked;
-    }
-
-    @Column(name="equivalent_task_blocked")
-    Boolean equivalentTaskBlocked;
 
     public TaskExecution() {
     }
 
-    public TaskExecution(TaskExecutionType taskType, Long book_id, Long reader_id) {
+    public TaskExecution(TaskExecutionType taskType, Long borrowedBookId) {
         this.taskType = taskType;
-        this.book_id = book_id;
-        this.reader_id = reader_id;
-        this.equivalentTaskBlocked=true;
+        this.borrowedBookId = borrowedBookId;
     }
 }

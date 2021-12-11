@@ -77,10 +77,9 @@ public class BorrowedBookController {
         Stock stock = stockRepository.getStockByBookId(bookId);
         stock.setNumbers(stock.getNumbers() + 1);
         stockRepository.save(stock);
-        var te =taskExecutionRepository.getBlockingTaskExecution(forDeletion.getBook().getId(),forDeletion.getReader().getId());
+        var te =taskExecutionRepository.getAllTaskExecutionsForBorrowedBook(id);
         if(te!=null){
-            te.setEquivalentTaskBlocked(true);
-            taskExecutionRepository.save(te);
+            taskExecutionRepository.deleteAll(te);
         }
         borrowedBookRepository.deleteById(id);
         emailService.InformOfAvailabilityAllRequesters(bookId);

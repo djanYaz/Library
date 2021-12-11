@@ -76,7 +76,6 @@ export class BorrowBookComponent implements OnInit {
   }
 
   borrowBook() {
-    debugger;
     this.borrowBookService.borrowBook(this.selectedReaderId, this.selectedBookId,this.returnDate)
       .subscribe(
         data => {
@@ -89,7 +88,6 @@ export class BorrowBookComponent implements OnInit {
   }
 
   public openPDF(): void {
-    debugger;
     const DATA = document.getElementById('borrow-book');
     if (DATA) {
       html2canvas(DATA).then(canvas => {

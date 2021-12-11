@@ -49,8 +49,9 @@ public class EmailService {
         Email from = new Email(sendingEmail);
         String subject = "Трябва да върнете книгата си!";
         Email to = new Email(readerEmail);
-        Content content = new Content("text/plain", "Здравейте. Трябва " +
-                "да върнете книгата '"+bookName+"' до "+ formatInstant(deadLineDate));
+        Content content = new Content("text/plain", "Здравейте. Просрочихте " +
+                "връщането на книгата '"+bookName+"', като крайният срок беше: "+ formatInstant(deadLineDate)+". Моля върнете" +
+                " книгата скоро.");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }
@@ -79,7 +80,7 @@ public class EmailService {
         String subject = "Уведомление за вече-налична книга";
         Email to = new Email(readerEmail);
         Content content = new Content("text/plain", "Здравейте. Книгата '"+bookName+"', която поискахте да " +
-                "вземете на "+formatInstant(attemptToBorrowDate)+" вече е налична.");
+                "вземете на "+formatInstant(attemptToBorrowDate)+", вече е налична.");
         Mail mail = new Mail(from, subject, to, content);
         this.trySendEmail(mail);
     }

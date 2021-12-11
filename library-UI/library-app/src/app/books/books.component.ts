@@ -75,7 +75,6 @@ export class BooksComponent implements OnInit {
     this.bookService.getListGenres()
       .subscribe(
         (genres: Array<string>) => {
-          console.log(genres);
           this.genres = genres;
         },
           (error: any) => {

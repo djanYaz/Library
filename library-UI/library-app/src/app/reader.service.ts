@@ -75,7 +75,6 @@ export class ReaderService {
     return this.http.put(`${this.baseUrl}` + `/updatereader/`+`${id}`,value);
   }
   howManyBooks(id:number): Observable<any>{
-    debugger;
     return this.http.get(`${this.baseUrl}` + `/number/`+`${id}`);
   }
 }

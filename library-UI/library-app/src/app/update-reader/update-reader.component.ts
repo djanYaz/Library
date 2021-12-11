@@ -21,7 +21,6 @@ export class UpdateReaderComponent implements OnInit {
 
     this.readerService.getReader(this.id)
       .subscribe(data =>{
-        console.log(data)
         this.reader=data;
       },error=>console.log(error));
   }
@@ -29,7 +28,6 @@ export class UpdateReaderComponent implements OnInit {
   updateReader(){
     this.readerService.updateReader(this.id,this.reader)
       .subscribe(data =>{
-        console.log(data)
         this.reader=<Reader>data;
         this.gotoList()
       },error =>console.log(error));

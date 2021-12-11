@@ -107,7 +107,6 @@ export class ReadersComponent implements OnInit {
     this.readerService.getListCities()
       .subscribe(
         (cities: Array<string>) => {
-          console.log(cities);
           this.cities = cities;
         },
         (error: any) => {
@@ -135,7 +134,6 @@ export class ReadersComponent implements OnInit {
   }
 
   checkButton(id: number) {
-    debugger;
     this.readerService.howManyBooks(id)
       .subscribe(data => {
         this.hasBooks = data;

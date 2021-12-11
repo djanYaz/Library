@@ -17,9 +17,6 @@ export class ReturnBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBorrowedBooks();
-    setTimeout(() => {
-      console.log(this.borrowBooks);
-    }, 1000);
   }
 
   getAllBorrowedBooks() {
@@ -35,7 +32,6 @@ export class ReturnBookComponent implements OnInit {
   }
 
   returnSelectedBook(id: number) {
-    debugger;
     if(window.confirm('Сигурни ли сте, че искате да върнете книгата?')) {
       this.borrowBookService.returnBook(id).subscribe(
         () => {

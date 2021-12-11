@@ -16,7 +16,6 @@ export class BorrowBookService {
   }
 
   borrowBook(reader_id: number, book_id: number, return_date: Date): Observable<any> {
-    debugger;
     const params = new HttpParams()
       .set('reader_id', reader_id)
       .set('book_id', book_id)
@@ -25,7 +24,6 @@ export class BorrowBookService {
   }
 
   returnBook(id: number): Observable<Object> {
-    debugger;
     return this.http.put(`${this.baseUrl}` + '/decrease/' + `${id}`, null);
   }
 
