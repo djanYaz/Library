@@ -17,4 +17,6 @@ public interface BorrowedBookRepository extends JpaRepository<BorrowedBook, Long
     @Query("SELECT b FROM BorrowedBook b WHERE b.returnDate < :instant")
     List<BorrowedBook> getBookBorrowingsWithReturnDateEarlierThan(Instant instant);
 
+    @Query("SELECT b FROM BorrowedBook b WHERE b.reader.id = :readerId")
+    List<BorrowedBook> getBookBorrowingsOfReader(Long readerId);
 }

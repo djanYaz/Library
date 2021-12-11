@@ -26,43 +26,40 @@ public class Scheduler {
     @Autowired
     EmailService emailService;
     @Scheduled(fixedRate = 10000)
-    public void checkForNearlyOverdueBorrowedBooks() throws IOException {
+    public void executeChecks() throws IOException {
+        checkForNearlyOverdueBorrowedBooks();
+        checkForOverdueBorrowedBooks();
+        checkForExtremelyOverdueBooks();
+    }
+    private void checkForNearlyOverdueBorrowedBooks() throws IOException {
         var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().plusSeconds(3600*24*20));
         handleMany(found,TaskExecutionType.WarnOfApproachingDeadline);
-
     }
-    @Scheduled(fixedRate = 10000)
-    public void checkForOverdueBorrowedBooks() throws IOException {
+    private void checkForOverdueBorrowedBooks() throws IOException {
         var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now());
         handleMany(found,TaskExecutionType.WarnOfOverdueBook);
     }
-    @Scheduled(fixedRate = 10000)
-    public void checkForExtremelyOverdueBooks() throws IOException {
+    private void checkForExtremelyOverdueBooks() throws IOException {
         var found=borrowedBookRepository.getBookBorrowingsWithReturnDateEarlierThan(Instant.now().minusSeconds(3600*24*20));
         handleMany(found,TaskExecutionType.WarnOfAdministrativeSanction);
     }
     private void handle(BorrowedBook borrowedBook,TaskExecutionType taskExecutionType) throws IOException {
-        var active = taskExecutionRepository.getBlockingTaskExecution(borrowedBook.getBook().getId(), borrowedBook.getReader().getId());
+        var active = taskExecutionRepository.getMatchingTaskExecution(borrowedBook.getId(), taskExecutionType);
         if(active==null){
-            taskExecutionRepository.save(new TaskExecution(taskExecutionType,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
-            executeWarning(taskExecutionType,borrowedBook);
-        }else if(active!=null&&active.getTaskType().ordinal()<taskExecutionType.ordinal()){
-            active.setEquivalentTaskBlocked(false);
-            taskExecutionRepository.save(new TaskExecution(taskExecutionType,borrowedBook.getBook().getId(), borrowedBook.getReader().getId()));
-            taskExecutionRepository.save(active);
-            executeWarning(taskExecutionType,borrowedBook);
+            taskExecutionRepository.save(new TaskExecution(taskExecutionType,borrowedBook.getId()));
+            executeMessageSending(taskExecutionType,borrowedBook);
         }
     }
-    private void executeWarning(TaskExecutionType taskExecutionType,BorrowedBook borrowedBook) throws IOException{
+    private void executeMessageSending(TaskExecutionType taskExecutionType, BorrowedBook borrowedBook) throws IOException{
         switch(taskExecutionType){
             case WarnOfApproachingDeadline:
-                emailService.WarnOfApproachingDeadline(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfApproachingDeadline(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
             case WarnOfAdministrativeSanction:
-                emailService.WarnOfAdministrativeSanction(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfAdministrativeSanction(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
             case WarnOfOverdueBook:
-                emailService.WarnOfOverdueBook(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate());
+                emailService.WarnOfOverdueBook(borrowedBook.getReader().getEmail(),borrowedBook.getBook().getTitle(),borrowedBook.getReturnDate(),borrowedBook.getBorrowDate());
                 break;
         }
     }
