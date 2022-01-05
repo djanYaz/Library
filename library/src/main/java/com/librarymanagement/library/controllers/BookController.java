@@ -151,4 +151,14 @@ public class BookController {
         }
     }
 
+    @GetMapping("/book/title")
+    public List<Book> updateBook(@RequestParam(name = "title") String title) throws Exception {
+        List<Book> books = bookRepository.findBookByTitle(title);
+        if(books == null){
+            throw new Exception("Book not found with title: " + title);
+        }
+
+        return books;
+    }
+
 }
