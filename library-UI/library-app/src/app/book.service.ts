@@ -72,4 +72,13 @@ export class BookService {
     return throwError(
       'Something bad happened; please try again later.');
   }
+
+  filterByTitle(title:string, pageNumber: number, pageSize: number, asc: boolean):Observable<any>{       
+      let params = new HttpParams();
+      params = params.append('page', pageNumber.toString());
+      params = params.append('size', pageSize.toString());
+      params = params.append('asc', asc.toString());
+
+      return this.http.get(this.baseUrl + '/book/title/' + title, {params} );   
+  }
 }
