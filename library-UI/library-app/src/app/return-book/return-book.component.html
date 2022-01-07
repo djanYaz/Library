@@ -14,6 +14,7 @@
               <th>Автор</th>
               <th>Дата на взимане</th>
               <th>Дата на връщане</th>
+              <th>Глоба</th>
               <th>Действия</th>
             </tr>
             </thead>
@@ -27,7 +28,9 @@
               <td [ngStyle]="{'background-color': getColor(borrowbook.returnDate)}">{{borrowbook.book.author}}</td>
               <td [ngStyle]="{'background-color': getColor(borrowbook.returnDate)}">{{borrowbook.borrowDate}}</td>
               <td [ngStyle]="{'background-color': getColor(borrowbook.returnDate)}">{{borrowbook.returnDate}}</td>
+              <td [ngStyle]="{'background-color': getColor(borrowbook.returnDate)}">{{getFine(borrowbook.returnDate)}}</td>
               <td [ngStyle]="{'background-color': getColor(borrowbook.returnDate)}">
+
                 <button (click)="returnSelectedBook(borrowbook.id)" class="btn btn-primary">Върни книга</button>
               </td>
             </tr>

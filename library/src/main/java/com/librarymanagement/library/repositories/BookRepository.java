@@ -29,4 +29,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b.stock.numbers FROM Book b WHERE b.id = :book_id")
     Long getBookStockById(Long book_id);
 
+    @Query("SELECT b FROM Book b WHERE b.title LIKE %:title%")
+    Page<Book>  findBookByTitle(String title, Pageable pageable);
 }

@@ -151,4 +151,19 @@ public class BookController {
         }
     }
 
+    @GetMapping("/book/title/{title}")
+    public Response filterByTitle(@PathVariable("title") String title,
+                                  @Param(value = "page") int page,
+                                  @Param(value = "size") int size,
+                                  @Param(value = "asc") boolean asc) throws Exception {
+        Pageable requestedPage = asc ? PageRequest.of(page - 1, size, Sort.by("title")) :
+                PageRequest.of(page - 1, size, Sort.by("title").descending());
+
+        Page<Book> books = bookRepository.findBookByTitle(title, requestedPage);
+        if (books == null) {
+            throw new Exception("Book not found with title: " + title);
+        }
+        return new Response(books.getContent(), books.getTotalPages(), books.getNumber(), books.getSize());
+    }
+
 }

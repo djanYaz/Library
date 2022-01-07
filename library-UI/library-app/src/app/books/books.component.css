@@ -58,3 +58,25 @@
 .sort-and-add {
   position: relative;
 }
+
+.search {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.search input {
+  width: 90%;
+  margin-right: 4px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+}
+
+.search button {
+  float: right;
+  margin-right: 20px;
+}

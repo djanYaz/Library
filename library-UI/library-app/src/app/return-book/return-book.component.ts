@@ -47,7 +47,6 @@ export class ReturnBookComponent implements OnInit {
     let rd: Date = new Date(returnDate);
     let timeInMilisec: number = rd. getTime() - today. getTime();
     let daysBetweenDates: number = Math. ceil(timeInMilisec / (1000 * 60 * 60 * 24));
-
     if(rd < today) {
       return '#ff4c3c';
     } else if(daysBetweenDates <= 5) {
@@ -55,5 +54,20 @@ export class ReturnBookComponent implements OnInit {
     } else {
       return '#00d700';
     }
+
+
+  }
+  getFine(returnDate: string) {
+    let today: Date = new Date();
+    let rd: Date = new Date(returnDate);
+    let timeInMilisec: number = rd.getTime() - today.getTime();
+    let daysBetweenDates: number = -(Math.ceil(timeInMilisec / (1000 * 60 * 60 * 24)));
+    let fine: number = 20;
+    if (rd < today) {
+      if(daysBetweenDates <=5 ) return daysBetweenDates*fine;
+      else return fine * 5;
+    }
+    else return 'No fine currently';
+
   }
 }

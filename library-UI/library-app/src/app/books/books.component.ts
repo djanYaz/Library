@@ -58,7 +58,13 @@ export class BooksComponent implements OnInit {
   }
 
   getPaginationWithIndex(index: number) {
+    let inputValue = (document.getElementById("site-search") as HTMLInputElement).value;
+
+    if (inputValue == "" || inputValue == undefined) {
     this.getPage(index+1, this.selectedGenre, this.asc);
+    } else {
+      this.search(index+1)
+    }
   }
 
   getBooksPagesWithGenreFiltering(optionValue: any) {
@@ -131,4 +137,13 @@ export class BooksComponent implements OnInit {
       error => console.log(error));
   }
 
+  search(page: number){debugger;
+    let inputValue = (document.getElementById("site-search") as HTMLInputElement).value;
+    this.bookService.filterByTitle(inputValue, 1, pageSize,this.asc).subscribe(data => {debugger;
+      this.books = data.books;
+      this.totalPages = data.totalPages;
+      this.pageIndexes = Array(this.totalPages).fill(0).map((x, i) => i);
+      this.currentSelectedPage = data.pageNumber;
+    });
+  }
 }
